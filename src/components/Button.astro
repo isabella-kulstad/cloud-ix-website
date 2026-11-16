@@ -1,14 +1,14 @@
 ---
 /**
  * Pill link-button used across the site.
- * variant: primary (accent fill) | outline (on light) | light (white fill, on dark) | outline-dark (on dark)
+ * variant: primary (accent fill) | outline (on light) | outline-white (outline with white fill, on sky) | light (white fill, on dark) | outline-dark (on dark)
  * size: sm (nav) | md | lg (hero CTAs)
  */
 import type { HTMLAttributes } from 'astro/types';
 
 interface Props extends HTMLAttributes<'a'> {
   href: string;
-  variant?: 'primary' | 'outline' | 'light' | 'outline-dark';
+  variant?: 'primary' | 'outline' | 'outline-white' | 'light' | 'outline-dark';
   size?: 'sm' | 'md' | 'lg';
 }
 const { href, variant = 'primary', size = 'md', class: className, ...rest } = Astro.props;
@@ -35,6 +35,8 @@ const { href, variant = 'primary', size = 'md', class: className, ...rest } = As
   .button--primary:hover { color: #FFFFFF; }
   .button--outline { color: var(--night); border-color: var(--line-strong); }
   .button--outline:hover { color: var(--night); }
+  .button--outline-white { color: var(--night); background: #FFFFFF; border-color: var(--line-strong); }
+  .button--outline-white:hover { color: var(--night); }
   .button--light { background: #FFFFFF; color: var(--night); }
   .button--light:hover { color: var(--night); }
   .button--outline-dark { color: #FFFFFF; border-color: rgba(169, 201, 238, 0.4); }

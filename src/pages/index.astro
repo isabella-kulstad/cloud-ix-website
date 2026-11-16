@@ -1,0 +1,363 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkyHero from '../components/SkyHero.astro';
+import Button from '../components/Button.astro';
+import Cloud from '../components/Cloud.astro';
+import ShootingStar from '../components/ShootingStar.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { routes, external } from '../data/site';
+
+/** Turn on once real Substack posts are wired in. */
+const showBlog = false;
+
+const heroClouds = [
+  { top: 190, width: 320, duration: 95 },
+  { top: 420, width: 200, duration: 70, delay: -30 },
+  { top: 80, width: 140, duration: 120, delay: -70 },
+];
+const heroShoots = [
+  { top: 90, left: '62%' },
+  { top: 220, left: '30%', delay: 5.5 },
+];
+
+const steps = [
+  { title: 'Ask privately', body: 'Students open a confidential, end-to-end encrypted chat — no account, no judgment, no one watching.' },
+  { title: 'Get matched to real resources', body: 'Cloud IX is trained on their campus’s offices plus local and national hotlines, so answers are specific and current.' },
+  { title: 'Decide what’s next', body: 'Students keep full autonomy at every step. Cloud IX doesn’t investigate or determine outcomes — it supports.' },
+];
+
+const features = [
+  { title: 'Encrypted end to end', body: 'Interaction data is encrypted in the app and on our servers.', icon: '<rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path>' },
+  { title: 'HECVAT compliant', body: 'HECVAT, privacy policy and statement of work ready for procurement.', icon: '<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"></path><path d="m9 12 2 2 4-4"></path>' },
+  { title: 'Built in house', body: 'All development is done by our own team.', icon: '<path d="m9 18-6-6 6-6M15 6l6 6-6 6"></path>' },
+  { title: 'Insights for outreach', body: 'Anonymized chats are quality-tested and help inform your student outreach.', icon: '<path d="M3 3v18h18"></path><path d="m7 15 4-4 3 3 5-6"></path>' },
+];
+
+const quotes = [
+  { quote: '“Having a place of privacy to understand my options makes all the difference”', by: '— Campus Leader, University of Texas at Austin' },
+  { quote: '“The Cloud IX team gets the student experience better than anyone else”', by: '— Director, Statewide Coalition Against Sexual Assault' },
+];
+
+const partnerTypes = [
+  { title: 'Universities', body: "Coming to UT Austin's Student Groups in 2026." },
+  { title: 'Advocacy orgs', body: 'State and Nationwide Coalitions, Crisis Centers' },
+  { title: 'Accelerators', body: 'Milken-Penn GSE, 4.0 Schools' },
+  { title: 'Press', body: 'Innovation Institute Feature, Milken Finalist Feature' },
+];
+
+const posts = [
+  { title: '[Latest Substack post title]', date: '[Date]', tint: 'var(--tint)', href: external.blog },
+  { title: '[Post title]', date: '[Date]', tint: '#EEEAFB', href: external.blog },
+  { title: '[Post title]', date: '[Date]', tint: 'var(--tint)', href: external.blog },
+];
+
+const cloudPath = 'M40 78h120a28 28 0 0 0 2-55.9A40 40 0 0 0 86 14a30 30 0 0 0-46 64Z';
+---
+<BaseLayout title="Cloud IX">
+  <SkyHero clouds={heroClouds} shoots={heroShoots}>
+    <svg slot="decor" class="moon hero-moon" viewBox="0 0 170 170" aria-hidden="true"><circle cx="85" cy="85" r="84" fill="#FFF4DC" opacity="0.6"></circle><circle cx="85" cy="85" r="62" fill="#FFEBC2" opacity="0.8"></circle><circle cx="85" cy="85" r="42" fill="#FFDD95"></circle></svg>
+
+    <div class="container hero">
+      <div class="hero__copy">
+        <span class="pill rise">Confidential · End-to-end encrypted · Student-led</span>
+        <h1 class="display rise hero__title" style="animation-delay:.1s">Support that meets students <span class="glowtext hl">where they are.</span></h1>
+        <p class="rise hero__lead" style="animation-delay:.2s">Cloud IX is the first intelligent sexual violence response platform for college campuses — a private chat that connects students to campus, local and national resources the moment they need them.</p>
+        <div class="rise hero__actions" style="animation-delay:.3s">
+          <Button href={routes.bookDemo} size="lg">Bring Cloud IX to your campus</Button>
+          <Button href="#how" variant="outline" size="lg">See how it works</Button>
+        </div>
+      </div>
+
+      <div class="hero__visual">
+        <div class="orbits" aria-hidden="true">
+          <svg class="orbit" viewBox="0 0 580 580"><ellipse cx="290" cy="290" rx="280" ry="118" fill="none" stroke="#2563A8" stroke-opacity="0.32" stroke-width="1.5" transform="rotate(-24 290 290)"></ellipse></svg>
+          <svg class="orbit spin" viewBox="0 0 580 580"><circle cx="290" cy="290" r="240" fill="none" stroke="#2563A8" stroke-opacity="0.16" stroke-dasharray="3 9"></circle><circle cx="290" cy="50" r="7" fill="#2563A8"></circle><circle cx="80" cy="410" r="4" fill="#A9C9EE"></circle></svg>
+          <svg class="orbit orbit--inner spin-rev" viewBox="0 0 500 500"><circle cx="250" cy="250" r="246" fill="none" stroke="#2563A8" stroke-opacity="0.08"></circle><circle cx="496" cy="250" r="5" fill="#C3D5EC"></circle></svg>
+        </div>
+        <div class="phone bob" role="img" aria-label="Example Cloud IX chat: a student asks who they can talk to on campus without it being reported, and Cloud IX lists confidential options such as the Counseling Center and a Victim Advocate.">
+          <div class="phone__screen" aria-hidden="true">
+            <div class="phone__head">
+              <div class="phone__avatar"><svg width="24" height="16" viewBox="0 -3 40 31"><path d="M11 26h20a8 8 0 0 0 1.2-15.9A10 10 0 0 0 13 8.2 9 9 0 0 0 11 26Z" fill="#8DBBF5"></path></svg></div>
+              <div><div class="phone__name">Cloud IX</div><div class="phone__status">Private &amp; encrypted</div></div>
+            </div>
+            <div class="rise bubble bubble--bot" style="animation-delay:.6s">Hi, I’m here to help. Everything you share stays private. What would you like to know?</div>
+            <div class="rise bubble bubble--me" style="animation-delay:1.6s">Who can I talk to on campus without it being reported?</div>
+            <div class="rise bubble bubble--bot" style="animation-delay:2.8s">You have confidential options. Here are the ones at your school — you decide what happens next.</div>
+            <div class="rise options" style="animation-delay:3.6s">
+              <div class="option">Counseling Center</div>
+              <div class="option">Victim Advocate</div>
+            </div>
+            <div class="rise typing" style="animation-delay:4.4s"><span class="dot"></span><span class="dot" style="animation-delay:.15s"></span><span class="dot" style="animation-delay:.3s"></span></div>
+            <div class="phone__input">Type a question…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </SkyHero>
+
+  <!-- Mid-page sky -->
+  <div class="relative">
+    <Cloud top={140} width={260} duration={110} delay={-20} fill="var(--cloud)" opacity={0.9} />
+    <Cloud top={900} width={380} duration={140} delay={-90} fill="var(--cloud)" opacity={0.9} />
+
+    <!-- Problem -->
+    <section class="container problem" aria-labelledby="problem-h">
+      <div class="problem__stat">
+        <div class="glowtext problem__number">2 in 5</div>
+        <p class="problem__caption">college students experience violence. [Add source citation]</p>
+      </div>
+      <div class="problem__copy">
+        <h2 id="problem-h" class="h2">Most students never find the help that already exists on their campus.</h2>
+        <p class="lead">Resources are scattered across offices, websites and hotlines — and asking out loud is the hardest step. Cloud IX gives students a private place to ask first, so they can understand their options before talking to anyone.</p>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how" aria-labelledby="how-h" class="container how">
+      <SectionHeading eyebrow="How it works" id="how-h">Three steps. Always on the student’s terms.</SectionHeading>
+      <ol class="steps" role="list">
+        {steps.map((s, i) => (
+          <li class="card panel step">
+            <div class="tile icon-tile" aria-hidden="true">{i + 1}</div>
+            <h3 class="h3">{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </div>
+
+  <!-- For universities -->
+  <section id="universities" aria-labelledby="uni-h" class="night-band">
+    <div class="stars1" aria-hidden="true"></div>
+    <svg class="spin-rev uni__ring" viewBox="0 0 620 620" aria-hidden="true"><circle cx="310" cy="310" r="300" fill="none" stroke="#8DBBF5" stroke-opacity="0.18" stroke-dasharray="2 10"></circle><circle cx="310" cy="310" r="220" fill="none" stroke="#8DBBF5" stroke-opacity="0.1"></circle><circle cx="10" cy="310" r="6" fill="#8DBBF5"></circle></svg>
+    <div class="container uni">
+      <div class="uni__copy">
+        <span class="eyebrow eyebrow--dark">For universities</span>
+        <h2 id="uni-h" class="h2 on-dark">Built to fit your protocols — and pass your security review.</h2>
+        <p class="uni__lead">Cloud IX integrates with existing university processes and complies with HECVAT and industry standards, giving administrators, staff and faculty peace of mind.</p>
+        <div class="uni__actions">
+          <Button href={routes.bookDemo} variant="light">Book a demo</Button>
+          <Button href={routes.hecvat} variant="outline-dark">Request our HECVAT</Button>
+        </div>
+      </div>
+      <ul class="features" role="list">
+        {features.map((f) => (
+          <li class="card panel--dark feature">
+            <div class="tile icon-tile icon-tile--dark" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={f.icon}></svg></div>
+            <h3 class="feature__title">{f.title}</h3>
+            <p>{f.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Lower sky -->
+  <div class="relative">
+    <Cloud top={260} width={300} duration={125} delay={-50} fill="var(--cloud)" opacity={0.9} />
+
+    <!-- Testimonials -->
+    <section aria-labelledby="t-h" class="container testimonials">
+      <SectionHeading eyebrow="In their words" id="t-h">What students and campus leaders say</SectionHeading>
+      <div class="testimonials__grid">
+        <figure class="card quote-hero">
+          <svg class="bob quote-hero__cloud" viewBox="0 -30 200 110" aria-hidden="true"><path d={cloudPath} fill="var(--cloud)"></path></svg>
+          <svg width="40" height="32" viewBox="0 0 40 32" aria-hidden="true"><path d="M0 32V18C0 8 6 2 16 0l2 4c-6 2-9 6-9 11h8v17H0Zm22 0V18c0-10 6-16 16-18l2 4c-6 2-9 6-9 11h8v17H22Z" fill="#2563A8"></path></svg>
+          <blockquote>Cloud IX is going to change the lives of survivors everywhere. Every single university needs Cloud IX, and every single university will be better because of it.</blockquote>
+          <figcaption>
+            <div><div class="quote-hero__name">Tim Foxx</div><div class="quote-hero__role">Director, the University of Pennsylvania</div></div>
+          </figcaption>
+        </figure>
+        <div class="quote-stack">
+          {quotes.map((q) => (
+            <figure class="card panel quote">
+              <blockquote>{q.quote}</blockquote>
+              <figcaption>{q.by}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Partnerships -->
+    <section id="partners" aria-labelledby="p-h" class="container partners">
+      <div class="panel partners__panel">
+        <div class="partners__copy">
+          <span class="eyebrow">Partnerships</span>
+          <h2 id="p-h" class="h2 h2--sm">We build alongside advocates, hotlines and campus leaders.</h2>
+          <p class="text-2">From pilot universities to national support organizations, our partners shape the resources Cloud IX recommends.</p>
+          <Button href={routes.partners} class="partners__btn">Become a partner</Button>
+        </div>
+        <ul class="partner-types" role="list">
+          {partnerTypes.map((p) => (
+            <li class="card partner-type">
+              <span class="partner-type__title">{p.title}</span>
+              <span class="partner-type__body">{p.body}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    {showBlog && (
+      <section aria-labelledby="b-h" class="container blog">
+        <div class="blog__head">
+          <h2 id="b-h" class="h2 h2--sm">From the blog</h2>
+          <a href={external.blog} class="blog__all">All posts →</a>
+        </div>
+        <div class="blog__grid">
+          {posts.map((p) => (
+            <a class="card panel post" href={p.href}>
+              <div class="post__media"><div class="zoom post__img" style={`background:${p.tint}`}>[Post image]</div></div>
+              <div class="post__body"><span class="post__date">{p.date}</span><span class="post__title">{p.title}</span></div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Final CTA -->
+    <section id="demo" aria-labelledby="cta-h" class="cta">
+      <div class="cta__card">
+        <div class="stars1" aria-hidden="true"></div>
+        <ShootingStar top={60} left="70%" delay={3} />
+        <svg class="moon cta__horizon" viewBox="0 0 1100 640" aria-hidden="true"><ellipse cx="550" cy="640" rx="560" ry="560" fill="#FFFFFF"></ellipse><ellipse cx="550" cy="640" rx="560" ry="560" fill="none" stroke="#A9C9EE" stroke-opacity="0.9" stroke-width="2"></ellipse></svg>
+        <Cloud top={40} width={220} duration={60} />
+        <Cloud top={260} width={160} duration={45} delay={-25} />
+        <h2 id="cta-h" class="display cta__title">Your campus.<br /><span class="glowtext hl">Your questions, answered.</span></h2>
+        <p class="cta__lead">See how Cloud IX can be set up with your campus resources in a 30-minute walkthrough.</p>
+        <div class="cta__actions">
+          <Button href={routes.bookDemo} size="lg">Book a demo</Button>
+          <Button href={routes.faq} variant="outline" size="lg">Read the FAQ</Button>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  ul, ol { list-style: none; margin: 0; padding: 0; }
+  p { margin: 0; }
+
+  /* ---------- Hero ---------- */
+  .hero-moon { position: absolute; top: 110px; right: 6%; width: 170px; height: 170px; }
+  .hero {
+    position: relative; z-index: 1;
+    padding-top: 72px; padding-bottom: 250px;
+    display: flex; flex-wrap: wrap; gap: 64px; align-items: center;
+  }
+  .hero__copy { flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
+  .hero__title { font-size: clamp(2.5rem, 5vw, 4.4rem); line-height: 1.04; }
+  .hero__lead { font-size: 20px; max-width: 34rem; color: var(--ink-2); }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 14px; }
+
+  .hero__visual { flex: 1 1 340px; display: flex; justify-content: center; align-items: center; position: relative; min-height: 600px; }
+  .orbits { position: absolute; top: 50%; left: 50%; width: 580px; height: 580px; margin: -290px 0 0 -290px; pointer-events: none; }
+  .orbit { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .orbit--inner { inset: 40px; width: calc(100% - 80px); height: calc(100% - 80px); }
+
+  .phone {
+    position: relative; width: 320px; max-width: calc(100% - 24px);
+    background: var(--night-2); border-radius: 44px; padding: 12px;
+    box-shadow: 0 0 0 1px rgba(169, 201, 238, 0.25), 0 40px 90px rgba(47, 111, 196, 0.45);
+  }
+  .phone__screen {
+    background: var(--night-3); border-radius: 34px; padding: 22px 18px 18px;
+    display: flex; flex-direction: column; gap: 14px; height: 560px; box-sizing: border-box;
+  }
+  .phone__head { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid rgba(169, 201, 238, 0.14); }
+  .phone__avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--night-2); display: flex; align-items: center; justify-content: center; }
+  .phone__name { font-weight: 700; color: #FFFFFF; font-size: 15px; }
+  .phone__status { font-size: 12px; color: var(--on-dark-muted); }
+  .bubble { padding: 12px 14px; font-size: 14px; line-height: 1.45; max-width: 85%; }
+  .bubble--bot { align-self: flex-start; background: var(--night-2); color: #E6EEF9; border-radius: 18px 18px 18px 6px; }
+  .bubble--me { align-self: flex-end; background: var(--accent); color: #FFFFFF; border-radius: 18px 18px 6px 18px; }
+  .options { align-self: flex-start; display: flex; flex-direction: column; gap: 8px; width: 85%; }
+  .option { border: 1.5px solid rgba(141, 187, 245, 0.4); border-radius: 12px; padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600; }
+  .typing { align-self: flex-start; display: flex; gap: 5px; padding: 6px 4px; }
+  .phone__input { margin-top: auto; border: 1.5px solid rgba(169, 201, 238, 0.18); border-radius: 999px; padding: 12px 16px; font-size: 13px; color: var(--on-dark-muted); }
+
+  /* ---------- Problem ---------- */
+  .problem { position: relative; padding-top: 96px; padding-bottom: 48px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center; }
+  .problem__stat { flex: 1 1 360px; }
+  .problem__number {
+    font-family: var(--font-display); font-weight: 600; font-size: clamp(5rem, 11vw, 9rem);
+    line-height: 0.9; letter-spacing: -0.05em; color: var(--link);
+  }
+  .problem__caption { margin-top: 12px; font-size: 18px; color: var(--ink-2); }
+  .problem__copy { flex: 1.4 1 460px; display: flex; flex-direction: column; gap: 18px; }
+
+  /* ---------- How it works ---------- */
+  .how { position: relative; padding-top: 64px; padding-bottom: 112px; display: flex; flex-direction: column; gap: 48px; }
+  .steps { display: flex; flex-wrap: wrap; gap: 24px; }
+  .step { flex: 1 1 300px; padding: 36px 32px; display: flex; flex-direction: column; gap: 14px; }
+  .step p { color: var(--ink-2); }
+
+  /* ---------- For universities ---------- */
+  .uni__ring { position: absolute; top: -260px; right: -260px; width: 620px; height: 620px; opacity: 0.5; }
+  .uni { position: relative; padding-top: 112px; padding-bottom: 112px; display: flex; flex-wrap: wrap; gap: 64px; }
+  .uni__copy { flex: 1 1 380px; display: flex; flex-direction: column; gap: 20px; }
+  .uni__lead { font-size: 18px; color: var(--on-dark); }
+  .uni__actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
+  .features { flex: 1.3 1 480px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .feature { padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .feature__title { margin: 0; font-family: var(--font-display); font-size: 19px; font-weight: 600; color: #FFFFFF; }
+  .feature p { color: var(--on-dark); font-size: 16px; }
+
+  /* ---------- Testimonials ---------- */
+  .testimonials { position: relative; padding-top: 112px; padding-bottom: 112px; display: flex; flex-direction: column; gap: 48px; }
+  .testimonials__grid { display: flex; flex-wrap: wrap; gap: 24px; }
+  .quote-hero {
+    flex: 1.4 1 420px; margin: 0; background: var(--tint); border: 1px solid var(--line-sky); border-radius: 28px;
+    padding: 44px; display: flex; flex-direction: column; gap: 28px; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  .quote-hero__cloud { position: absolute; right: -30px; top: -20px; width: 220px; opacity: 0.08; }
+  .quote-hero blockquote {
+    position: relative; margin: 0; font-family: var(--font-display); font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+    line-height: 1.3; font-weight: 500; color: var(--night);
+  }
+  .quote-hero figcaption { display: flex; align-items: center; gap: 14px; }
+  .quote-hero__name { font-weight: 700; color: var(--night); }
+  .quote-hero__role { color: var(--muted); font-size: 15px; }
+  .quote-stack { flex: 1 1 320px; display: flex; flex-direction: column; gap: 24px; }
+  .quote { margin: 0; padding: 32px; display: flex; flex-direction: column; gap: 18px; }
+  .quote blockquote { margin: 0; font-size: 18px; color: var(--ink); }
+  .quote figcaption { color: var(--muted); font-size: 15px; font-weight: 600; }
+
+  /* ---------- Partnerships ---------- */
+  .partners { position: relative; padding-bottom: 112px; }
+  .partners__panel { border-radius: 32px; padding: 56px 48px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center; }
+  .partners__copy { flex: 1 1 380px; display: flex; flex-direction: column; gap: 16px; }
+  .partners__copy :global(.partners__btn) { align-self: flex-start; margin-top: 8px; }
+  .partner-types { flex: 1 1 380px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .partner-type { background: var(--tint); border: 1px solid var(--line); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 4px; }
+  .partner-type__title { font-weight: 700; color: var(--night); }
+  .partner-type__body { font-size: 15px; color: var(--muted); }
+
+  /* ---------- Blog (hidden by default) ---------- */
+  .blog { position: relative; padding-bottom: 112px; display: flex; flex-direction: column; gap: 36px; }
+  .blog__head { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: flex-end; }
+  .blog__all { font-weight: 700; }
+  .blog__grid { display: flex; flex-wrap: wrap; gap: 24px; }
+  .post { flex: 1 1 300px; text-decoration: none; color: inherit; overflow: hidden; display: flex; flex-direction: column; }
+  .post__media { height: 180px; overflow: hidden; }
+  .post__img { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 14px; }
+  .post__body { padding: 24px 26px 28px; display: flex; flex-direction: column; gap: 8px; }
+  .post__date { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .post__title { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--night); }
+
+  /* ---------- Final CTA ---------- */
+  .cta { position: relative; padding: 0 24px 112px; }
+  .cta__card {
+    max-width: 1240px; margin: 0 auto; background: var(--sky); border: 1px solid var(--line-sky); border-radius: 36px;
+    padding: 96px 32px 120px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: 22px; align-items: center; text-align: center;
+    box-shadow: 0 30px 80px rgba(37, 99, 168, 0.18);
+  }
+  .cta__horizon { position: absolute; left: 50%; bottom: -560px; width: 1100px; height: 640px; margin-left: -550px; }
+  .cta__title { position: relative; font-size: clamp(2.2rem, 4.6vw, 3.8rem); line-height: 1.05; }
+  .cta__lead { position: relative; max-width: 34rem; font-size: 19px; color: var(--ink-2); }
+  .cta__actions { position: relative; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+</style>

@@ -1,0 +1,205 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkyHero from '../components/SkyHero.astro';
+import PageIntro from '../components/PageIntro.astro';
+import FaqItem from '../components/FaqItem.astro';
+import Button from '../components/Button.astro';
+import Cloud from '../components/Cloud.astro';
+import { routes, hotline } from '../data/site';
+
+interface Faq {
+  q: string;
+  a: string;
+  /** optional bold link appended to the answer */
+  link?: { label: string; href: string };
+}
+
+const groups: { id: string; title: string; items: Faq[] }[] = [
+  {
+    id: 'students',
+    title: 'For students',
+    items: [
+      { q: 'What is Cloud IX?', a: 'Cloud IX is a private chat that helps students understand their options after sexual violence and find the right campus, local and national resources — at their own pace.' },
+      { q: 'Who is Sky?', a: 'Sky is the trauma-informed AI guide inside Cloud IX. Sky is trained on your school’s policies and resources, answers questions without judgment, and always leaves the next step up to you.' },
+      { q: 'Is what I share confidential?', a: 'Yes. Conversations are end-to-end encrypted, and Cloud IX doesn’t make reports on your behalf — you decide whether and how to reach out to anyone. [Confirm exact wording]' },
+      { q: 'Will my school know I used Cloud IX?', a: 'Your school sees only anonymized, combined insights about the kinds of questions students ask — never who asked them. [Confirm what the school view includes]' },
+      { q: 'Does Cloud IX replace counselors or the Title IX office?', a: 'No. Cloud IX is a first step, not a replacement. It explains what each office does and helps you connect with the people who can support you.' },
+      { q: 'What if I’m in danger right now?', a: 'Call 911. You can also call the 24/7 National Sexual Assault Hotline at 800-656-4673. Cloud IX is not an emergency service.' },
+      { q: 'Is Cloud IX available at my school?', a: 'We’re currently working with founding pilot campuses. [List pilot schools when ready.] If you’d like Cloud IX at your school, share this site with your Title IX office or student government.' },
+    ],
+  },
+  {
+    id: 'universities',
+    title: 'For universities',
+    items: [
+      { q: 'How does Cloud IX fit with our existing protocols?', a: 'We map your policies, offices and reporting options with your team, so Sky routes students to the people already doing this work on your campus.' },
+      { q: 'What does implementation involve?', a: 'A discovery call, a resource-mapping session, tailoring and testing Sky with your team, and launch support for RAs, orientation and your website.', link: { label: 'See the full process →', href: routes.universities } },
+      { q: 'How do we become a pilot campus?', a: 'We’re enrolling a small group of founding pilot campuses who get hands-on onboarding and a direct line to our founders.', link: { label: 'Get in touch →', href: routes.contact } },
+      { q: 'What does Cloud IX cost?', a: '[Describe pilot pricing or how pricing is set — e.g. by enrollment.]' },
+    ],
+  },
+  {
+    id: 'privacy',
+    title: 'Privacy & security',
+    items: [
+      { q: 'Is Cloud IX HECVAT compliant?', a: 'Yes. Our HECVAT, privacy policy and statement of work are ready for your IT and procurement teams.', link: { label: 'Request documents →', href: routes.hecvat } },
+      { q: 'How is data protected?', a: 'Interaction data is encrypted in the app and on our servers, and every part of the platform is built and maintained by our own team. [Add hosting and data-retention details]' },
+      { q: 'Is Cloud IX a mandated reporter?', a: '[Confirm with counsel. For example: Cloud IX is a technology platform, not a school employee, and does not file reports. Students choose whether to contact a reporting office.]' },
+    ],
+  },
+  {
+    id: 'about',
+    title: 'About Cloud IX',
+    items: [
+      { q: 'Who’s behind Cloud IX?', a: 'Cloud IX was founded at Tulane University by Isabella Kulstad and is built by a small in-house team with guidance from advisors and mentors.' },
+      { q: 'Where are you based?', a: 'New Orleans, Louisiana.' },
+      { q: 'How can I support or partner with Cloud IX?', a: 'We work with advocates, hotlines, campus leaders and press.', link: { label: 'Contact us →', href: routes.contact } },
+    ],
+  },
+];
+
+/** topic filters: "all" plus one per group */
+const filters = [{ id: 'all', label: 'All' }, ...groups.map((g) => ({ id: g.id, label: g.title }))];
+---
+<BaseLayout title="FAQ" description="Answers for students, campus teams and anyone curious about how Cloud IX works.">
+  <SkyHero
+    clouds={[
+      { top: 150, width: 280, duration: 90, delay: -50 },
+      { top: 320, width: 170, duration: 70, delay: -15 },
+    ]}
+    shoots={[]}
+  >
+    <PageIntro
+      pad={[56, 230]}
+      titleSize="clamp(2.4rem, 5vw, 4.2rem)"
+      leadSize={20}
+      leadMaxWidth="36rem"
+      lead="Answers for students, campus teams and anyone curious about how Cloud IX works."
+    >
+      <Fragment slot="title">Questions, <span class="glowtext hl">answered.</span></Fragment>
+    </PageIntro>
+  </SkyHero>
+
+  <!-- Support notice -->
+  <section aria-label="Need support now?" class="notice-wrap">
+    <div class="card notice">
+      <div class="stars1 notice__stars" aria-hidden="true"></div>
+      <div class="notice__body">
+        <svg class="notice__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8DBBF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"></path></svg>
+        <div class="notice__text">
+          <span class="notice__title">Looking for support?</span>
+          <span class="notice__copy">This form isn’t monitored around the clock, so please don’t share details of an experience here. You can reach trained help any time.</span>
+        </div>
+      </div>
+      <div class="notice__actions">
+        <a class="btn notice__btn notice__btn--light" href={hotline.tel}>Call {hotline.label}</a>
+        <a class="btn notice__btn notice__btn--outline" href="tel:911">In danger? Call 911</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ list -->
+  <section id="faq-list" class="faq-list">
+    <div role="group" aria-label="FAQ topics" class="filters">
+      {filters.map((f, i) => (
+        <button type="button" class="btn filter" data-filter={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>{f.label}</button>
+      ))}
+    </div>
+    {groups.map((g, gi) => (
+      <section id={`faq-${g.id}`} class="faq-group" data-group={g.id} aria-labelledby={`faq-${g.id}-h`}>
+        <h2 id={`faq-${g.id}-h`} class="faq-group__title">{g.title}</h2>
+        {g.items.map((item, ii) => (
+          <FaqItem question={item.q} open={gi === 0 && ii === 0}>
+            <p>{item.a}{item.link && <> <a class="faq-link" href={item.link.href}>{item.link.label}</a></>}</p>
+          </FaqItem>
+        ))}
+      </section>
+    ))}
+  </section>
+
+  <!-- Still have questions -->
+  <section aria-labelledby="more-h" class="more">
+    <div class="more__box">
+      <div class="stars1" aria-hidden="true"></div>
+      <svg class="more__horizon" viewBox="0 0 1100 640" aria-hidden="true"><ellipse cx="550" cy="640" rx="560" ry="560" fill="#FFFFFF"></ellipse><ellipse cx="550" cy="640" rx="560" ry="560" fill="none" stroke="#A9C9EE" stroke-width="2"></ellipse></svg>
+      <Cloud top={40} width={200} duration={55} />
+      <h2 id="more-h" class="more__title">Still have questions?</h2>
+      <p class="more__lead">We’re happy to help — reach out and a real person on our team will reply.</p>
+      <div class="more__actions">
+        <Button href={routes.contact} size="lg">Contact us</Button>
+        <Button href={routes.universities} variant="outline-white" size="lg">For universities</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Topic filter: "All" shows every group; any other topic shows just that group.
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter[data-filter]');
+  const groups = document.querySelectorAll<HTMLElement>('.faq-group[data-group]');
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const topic = btn.dataset.filter;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      groups.forEach((g) => {
+        g.hidden = topic !== 'all' && g.dataset.group !== topic;
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Support notice */
+  .notice-wrap {
+    position: relative; z-index: 2; max-width: var(--container); margin: -150px auto 0; padding: 0 var(--gutter) 32px;
+    box-sizing: border-box;
+  }
+  .notice {
+    background: var(--night); color: #FFFFFF; border: 1px solid var(--night-2); border-radius: 24px; padding: 24px 28px;
+    display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: center; position: relative; overflow: hidden;
+  }
+  .notice__stars { opacity: 0.6; }
+  .notice__body { position: relative; flex: 1 1 420px; display: flex; gap: 16px; align-items: flex-start; }
+  .notice__icon { flex: none; margin-top: 2px; }
+  .notice__text { display: flex; flex-direction: column; gap: 4px; }
+  .notice__title { font-family: var(--font-display); font-weight: 600; font-size: 20px; }
+  .notice__copy { color: var(--on-dark); font-size: 16px; }
+  .notice__actions { position: relative; display: flex; flex-wrap: wrap; gap: 10px; }
+  .notice__btn { padding: 12px 20px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 15px; }
+  .notice__btn--light, .notice__btn--light:hover { color: var(--night); background: #FFFFFF; }
+  .notice__btn--outline, .notice__btn--outline:hover { color: #FFFFFF; border: 1.5px solid rgba(169, 201, 238, 0.45); }
+
+  /* FAQ list */
+  .faq-list {
+    position: relative; max-width: 960px; margin: 0 auto; padding: 24px var(--gutter) 96px; box-sizing: border-box;
+    display: flex; flex-direction: column; gap: 40px;
+  }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .filter {
+    padding: 11px 20px; border-radius: 999px; font: inherit; font-weight: 700; font-size: 15px; line-height: 1.6; cursor: pointer;
+    color: var(--night); background: #FFFFFF; border: 1.5px solid var(--line-strong);
+  }
+  .filter[aria-pressed='true'] { color: #FFFFFF; background: var(--accent); border-color: var(--accent); }
+  .filter:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; }
+  .faq-group { display: flex; flex-direction: column; gap: 14px; }
+  .faq-group[hidden] { display: none; }
+  .faq-group__title { margin: 0 0 4px; font-family: var(--font-display); font-weight: 600; font-size: 26px; color: var(--night); }
+  .faq-link { font-weight: 700; }
+
+  /* Still have questions */
+  .more { position: relative; padding: 0 var(--gutter) 112px; }
+  .more__box {
+    max-width: var(--container); margin: 0 auto; box-sizing: border-box; background: var(--sky); border: 1px solid var(--line-sky);
+    border-radius: 36px; padding: 80px 32px 104px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center;
+    box-shadow: 0 30px 80px rgba(37, 99, 168, 0.18);
+  }
+  .more__horizon { position: absolute; left: 50%; bottom: -560px; width: 1100px; height: 640px; margin-left: -550px; }
+  .more__title {
+    position: relative; margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.08; letter-spacing: -0.03em; color: var(--night);
+  }
+  .more__lead { position: relative; margin: 0; max-width: 32rem; font-size: 19px; color: var(--ink-2); }
+  .more__actions { position: relative; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+  .more__actions :global(.button) { padding-left: 30px; padding-right: 30px; }
+</style>

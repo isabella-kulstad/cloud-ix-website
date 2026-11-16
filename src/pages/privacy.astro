@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkyHero from '../components/SkyHero.astro';
+import PageIntro from '../components/PageIntro.astro';
+import LegalDocWithToc from '../components/LegalDocWithToc.astro';
+import { routes } from '../data/site';
+
+const toc = [
+  { id: 'introduction', label: 'Introduction' },
+  { id: '1-our-role', label: '1. Our Role' },
+  { id: '2-information-we-collect', label: '2. Information We Collect' },
+  { id: '3-sky-the-ai-assistant', label: '3. Sky, the Assistant' },
+  { id: '4-how-we-use-information', label: '4. How We Use Information' },
+  { id: '5-what-we-do-not-do', label: '5. What We Do Not Do' },
+  { id: '6-when-we-share-information', label: '6. When We Share Information' },
+  { id: '7-retention', label: '7. Retention' },
+  { id: '8-security', label: '8. Security' },
+  { id: '9-your-rights-and-requests', label: '9. Your Rights and Requests' },
+  { id: '10-cookies-and-analytics', label: '10. Cookies and Analytics' },
+  { id: '11-children', label: '11. Children' },
+  { id: '12-where-data-is-stored', label: '12. Where Data Is Stored' },
+  { id: '13-links-to-other-sites', label: '13. Links to Other Sites' },
+  { id: '14-changes', label: '14. Changes' },
+  { id: '15-contact', label: '15. Contact' },
+];
+
+const collected = [
+  { category: 'Account', includes: 'Sign-in identifier, institutional email, role (student, employee, administrator), campus; for administrators, also name and title', source: "Your Institution's sign-on system" },
+  { category: 'Reports you submit', includes: 'What you enter in a reporting form, which goes to the Institution office named on the form', source: 'You' },
+  { category: 'Anonymous reports', includes: 'Incident type, date, and general location (Clery geography); no name or contact details', source: 'You' },
+  { category: 'Sky conversations', includes: 'Messages you exchange with Sky', source: 'You' },
+  { category: 'Security logs', includes: 'IP address, browser and device type, timestamps', source: 'Collected automatically' },
+  { category: 'Usage data', includes: 'Which features and resources are used, recorded in aggregate', source: 'Collected automatically' },
+];
+
+const notDone = [
+  'We do not sell personal information or share it for advertising.',
+  'We do not send marketing to Platform users.',
+  'We do not use identifiable information to build other products.',
+  'We do not attempt to re-identify de-identified data, and we contractually prohibit anyone we share it with from doing so.',
+];
+
+const retention = [
+  { data: 'Sky conversations', kept: "30 days or the Institution's setting" },
+  { data: 'Security logs', kept: '90 days' },
+  { data: 'Reports and Clery incident data', kept: 'As the Institution directs; Clery records generally must be kept about seven years' },
+  { data: 'Account data', kept: "While your Institution's account is active" },
+  { data: 'All Institution data after the Services Agreement ends', kept: 'Returned to the Institution, then deleted within 60 days, with written certification' },
+];
+---
+<BaseLayout title="Privacy Notice" description="How Cloud IX handles personal information on the platform — written to be read, not skimmed past.">
+  <SkyHero>
+    <PageIntro pill="Legal" gap={16} lead="How Cloud IX handles personal information on the platform — written to be read, not skimmed past.">
+      <Fragment slot="title">Privacy <span class="glowtext hl">notice</span></Fragment>
+    </PageIntro>
+  </SkyHero>
+
+  <LegalDocWithToc
+    title="Cloud IX Platform Privacy Notice"
+    updated="November 16th, 2026"
+    notice="If you are in danger, call 911. For a mental-health crisis, call or text 988. Cloud IX does not monitor conversations in real time."
+    toc={toc}
+    crossLink={{ href: routes.terms, label: 'Read our Terms of Use →' }}
+  >
+    <h2 id="introduction">Introduction</h2>
+    <p>This Privacy Notice explains how Cloud IX on Campus Inc. ("Cloud IX," "we") handles personal information in the Cloud IX platform and mobile app (the "Platform"). It applies to students, employees, and administrators who use the Platform through their college, university, or university system (the "Institution").</p>
+
+    <h2 id="1-our-role">1. Our Role</h2>
+    <p>Your Institution decides why and how your information is used; Cloud IX processes it on the Institution's behalf under a written Services Agreement. Where FERPA applies, Cloud IX acts as a "school official" under the Institution's direct control and does not redisclose education records except as the Institution authorizes or the law requires. If this Notice conflicts with the Services Agreement, the Services Agreement controls.</p>
+
+    <h2 id="2-information-we-collect">2. Information We Collect</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Category</th><th scope="col">What it includes</th><th scope="col">Source</th></tr>
+        </thead>
+        <tbody>
+          {collected.map((r) => (
+            <tr><td>{r.category}</td><td>{r.includes}</td><td>{r.source}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>We do not ask for Social Security numbers, financial account numbers, government ID numbers, dates of birth, or precise location, and the mobile app does not access your device's location. Please do not include them in messages or reports.</p>
+
+    <h2 id="3-sky-the-ai-assistant">3. Sky, the Assistant</h2>
+    <p>Sky is powered by Langchain, which processes your messages only to generate Sky's replies and may not use them to train its models. Cloud IX does not use your conversations to train AI models either.</p>
+    <p>Your Sky conversations are not shared with your Institution unless you submit a formal report or the law requires disclosure (see Section 6). Conversations are deleted after 30&nbsp;days unless your Institution sets a different period.</p>
+
+    <h2 id="4-how-we-use-information">4. How We Use Information</h2>
+    <p>We use personal information only to provide the Platform to your Institution: signing you in, delivering reports to the right office, operating Sky, sending service notices, keeping the Platform secure, and providing support. We use de-identified, aggregated data to maintain and improve the Platform and to give your Institution usage reports.</p>
+
+    <h2 id="5-what-we-do-not-do">5. What We Do Not Do</h2>
+    <ol>
+      {notDone.map((item) => <li>{item}</li>)}
+    </ol>
+
+    <h2 id="6-when-we-share-information">6. When We Share Information</h2>
+    <ol>
+      <li><strong>Your Institution.</strong> Reports you submit, administrator account data, and aggregated usage reports. Incident counts are reported only to your own Institution, and we do not publish counts.</li>
+      <li><strong>Subprocessors.</strong> Companies that host and operate the Platform for us, listed at <a href={routes.subprocessors}>cloud-ix.com/subprocessors</a>. They are bound by contract to use data only to serve Cloud IX and to protect it to our standards.</li>
+      <li><strong>Legal process.</strong> We disclose information in response to a subpoena, court order, or other legal process. We refer requests to your Institution where possible and notify it before responding unless the law forbids notice. Public-records requests are referred to your Institution.</li>
+      <li><strong>Emergencies.</strong> Sky does not monitor conversations for crises or alert anyone; if you mention a crisis, it shows crisis resources such as 911, 988, and campus contacts. If Cloud IX staff otherwise learn of an imminent threat to someone's health or safety, for example through a support request, we may share necessary information with your Institution's designated contact or emergency services, as the law permits.</li>
+      <li><strong>Business transfers.</strong> If Cloud IX is sold or merges, personal information may transfer only to a successor bound by this Notice and the Services Agreement. We will notify your Institution in advance, and it may require return and deletion of its data.</li>
+    </ol>
+
+    <h2 id="7-retention">7. Retention</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Data</th><th scope="col">Kept for</th></tr>
+        </thead>
+        <tbody>
+          {retention.map((r) => (
+            <tr><td>{r.data}</td><td>{r.kept}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="8-security">8. Security</h2>
+    <p>We encrypt data in transit (TLS 1.2 or higher) and at rest, host the Platform with GCP in the United States, limit staff access to those who need it, and log that access. We complete the EDUCAUSE HECVAT and CAIQ CSA STAR Assessment. If we confirm a breach affecting your Institution's data, we will notify the Institution within 72 hours and support it in notifying affected people as the law requires. No system is perfectly secure.</p>
+
+    <h2 id="9-your-rights-and-requests">9. Your Rights and Requests</h2>
+    <p>Your Institution controls your records, so requests to access, correct, or delete your information should go to your Institution, which may ask us to act on them. We will help it respond. Some records, such as Clery incident data or reports already submitted, may need to be kept even if you ask for deletion. If you are unsure whom to contact, write to <a href="mailto:support@cloud-ix.com">support@cloud-ix.com</a> and we will forward your request.</p>
+
+    <h2 id="10-cookies-and-analytics">10. Cookies and Analytics</h2>
+    <p>The Platform uses cookies that are necessary for sign-in, security, and basic operation. Our analytics are aggregated and are not used for advertising or cross-site tracking. Blocking necessary cookies may stop the Platform from working.</p>
+
+    <h2 id="11-children">11. Children</h2>
+    <p>The Platform is intended for adults at colleges and universities and is not directed to children under 18. Institutions may not provide access to anyone under 18. If we learn that a user is under 18, we will notify the Institution, disable the account, and work with the Institution to delete that user's information.</p>
+
+    <h2 id="12-where-data-is-stored">12. Where Data Is Stored</h2>
+    <p>We store and process data in the United States.</p>
+
+    <h2 id="13-links-to-other-sites">13. Links to Other Sites</h2>
+    <p>The Platform may link to campus or community resources with their own privacy practices. This Notice does not cover them.</p>
+
+    <h2 id="14-changes">14. Changes</h2>
+    <p>If we make a material change, we will notify your Institution's administrators at least 30 days before it takes effect and post the updated Notice with a new Last Revised date.</p>
+
+    <h2 id="15-contact">15. Contact</h2>
+    <p>Cloud IX on Campus Inc., 927 Poeyfarre Street, 514, New Orleans, LA 70130, <a href="mailto:support@cloud-ix.com">support@cloud-ix.com</a>. Accessibility questions also go to <a href="mailto:support@cloud-ix.com">support@cloud-ix.com</a>.</p>
+  </LegalDocWithToc>
+</BaseLayout>

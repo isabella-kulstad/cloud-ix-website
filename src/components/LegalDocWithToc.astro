@@ -1,0 +1,95 @@
+---
+/**
+ * Legal body used by the Privacy and Terms pages: a sticky "On this page"
+ * table of contents beside a white document card that overlaps the bottom of
+ * a <SkyHero>. Put the prose (h2 with ids matching `toc`, p, ol, .table-wrap)
+ * in the default slot.
+ */
+interface Props {
+  title: string;
+  updated: string;
+  /** emergency notice shown at the top of the document */
+  notice: string;
+  toc: { id: string; label: string }[];
+  crossLink: { href: string; label: string };
+  /** colour of the "Last Revised" line (the Terms design uses the darker link blue) */
+  updatedTone?: 'muted' | 'link';
+}
+const { title, updated, notice, toc, crossLink, updatedTone = 'muted' } = Astro.props;
+---
+<section class="legal-body">
+  <nav aria-label="On this page" class="toc">
+    <span class="toc__title">On this page</span>
+    <ol class="toc__list">
+      {toc.map((t) => (
+        <li><a class="navlink" href={`#${t.id}`}>{t.label}</a></li>
+      ))}
+    </ol>
+    <a class="toc__cross" href={crossLink.href}>{crossLink.label}</a>
+  </nav>
+  <article aria-labelledby="doc-title" class="doc">
+    <h2 id="doc-title" class="doc__title">{title}</h2>
+    <p class:list={['doc__updated', `doc__updated--${updatedTone}`]}>Last Revised: {updated}</p>
+    <div class="doc__notice">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8DBBF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v4M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path></svg>
+      <p><strong>{notice}</strong></p>
+    </div>
+    <slot />
+  </article>
+</section>
+<style>
+  .legal-body {
+    position: relative; z-index: 2; max-width: var(--container); margin: -150px auto 0; padding: 0 var(--gutter) 104px;
+    box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;
+  }
+
+  /* Table of contents */
+  .toc {
+    flex: 1 1 260px; max-width: 320px; position: sticky; top: 24px; box-sizing: border-box; margin-top: 168px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 24px 26px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  /* Once the TOC wraps above the document it must not stick over the text. */
+  @media (max-width: 899px) { .toc { position: static; margin-top: 0; max-width: none; } }
+  .toc__title { font-weight: 700; color: var(--night); font-size: 15px; }
+  .toc__list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .toc__list a { color: var(--ink-2); text-decoration: none; font-size: 15px; }
+  .toc__cross { margin-top: 8px; padding-top: 14px; border-top: 1px solid var(--line); font-weight: 700; font-size: 15px; }
+
+  /* Document card */
+  .doc {
+    flex: 3 1 560px; min-width: 0; box-sizing: border-box; background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: 32px; padding: 48px 52px; box-shadow: 0 30px 80px rgba(37, 99, 168, 0.14);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  @media (max-width: 640px) { .doc { padding: 32px 22px; border-radius: 24px; } }
+  .doc__title {
+    margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+    line-height: 1.15; letter-spacing: -0.02em; color: var(--night);
+  }
+  .doc__updated { margin: 0; font-size: 15px; font-weight: 600; }
+  .doc__updated--muted { color: var(--muted); }
+  .doc__updated--link { color: var(--link-hover); }
+  .doc__notice {
+    display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border-radius: 16px;
+    background: var(--night); color: #FFFFFF;
+  }
+  .doc__notice svg { flex: none; margin-top: 3px; }
+  .doc__notice p { margin: 0; font-size: 16px; line-height: 1.6; color: #FFFFFF; }
+
+  /* Slotted prose */
+  .doc :global(h2:not(.doc__title)) {
+    margin: 28px 0 0; font-family: var(--font-display); font-weight: 600; font-size: 24px; line-height: 1.25; color: var(--night);
+  }
+  .doc > :global(p:not(.doc__updated)) { margin: 0; color: var(--ink-2); font-size: 17px; line-height: 1.7; }
+  .doc > :global(ol) {
+    margin: 0; padding-left: 26px; display: flex; flex-direction: column; gap: 10px;
+    color: var(--ink-2); font-size: 17px; line-height: 1.7;
+  }
+  .doc > :global(ol > li) { padding-left: 6px; }
+  .doc > :global(ol strong) { color: var(--night); }
+  .doc :global(.table-wrap) { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; }
+  .doc :global(table) { width: 100%; min-width: 520px; border-collapse: collapse; }
+  .doc :global(th) { text-align: left; padding: 12px 16px; font-size: 14px; font-weight: 700; color: var(--night); background: var(--tint); }
+  .doc :global(td) { padding: 12px 16px; border-top: 1px solid var(--line); vertical-align: top; font-size: 15px; color: var(--ink-2); }
+</style>

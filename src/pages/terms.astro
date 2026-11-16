@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkyHero from '../components/SkyHero.astro';
+import PageIntro from '../components/PageIntro.astro';
+import LegalDocWithToc from '../components/LegalDocWithToc.astro';
+import { routes } from '../data/site';
+
+const toc = [
+  { id: 'introduction', label: 'Introduction' },
+  { id: '1-eligibility', label: '1. Eligibility' },
+  { id: '2-license', label: '2. License' },
+  { id: '3-sky-the-ai-assistant', label: '3. Sky, the AI Assistant' },
+  { id: '4-what-is-confidential-and-what-your-institution-sees', label: '4. What Is Confidential and What Your Institution Sees' },
+  { id: '5-information-we-collect', label: '5. Information We Collect' },
+  { id: '6-acceptable-use', label: '6. Acceptable Use' },
+  { id: '7-your-right-to-discuss-your-own-experiences', label: '7. Your Right to Discuss Your Own Experiences' },
+  { id: '8-your-account', label: '8. Your Account' },
+  { id: '9-what-you-submit', label: '9. What You Submit' },
+  { id: '10-feedback', label: '10. Feedback' },
+  { id: '11-intellectual-property', label: '11. Intellectual Property' },
+  { id: '12-export-controls', label: '12. Export Controls' },
+  { id: '13-disclaimers', label: '13. Disclaimers' },
+  { id: '14-suspension-and-termination', label: '14. Suspension and Termination' },
+  { id: '15-when-the-institution-s-agreement-ends', label: "15. When the Institution's Agreement Ends" },
+  { id: '16-copyright-complaints', label: '16. Copyright Complaints' },
+  { id: '17-reporting-misuse', label: '17. Reporting Misuse' },
+  { id: '18-accessibility', label: '18. Accessibility' },
+  { id: '19-changes', label: '19. Changes' },
+  { id: '20-contact', label: '20. Contact' },
+];
+
+const skyNotes = [
+  'Sky can make mistakes. Confirm important information with the campus office it refers you to.',
+  'Sky is not a counselor, attorney, police officer, or Title IX coordinator. Talking to Sky is not filing a report unless you complete a reporting form that says it will be sent to your Institution. Sky does not alert your Institution, Cloud IX staff, or emergency services; if you mention a crisis, it shows crisis resources such as 911, 988, and campus contacts.',
+  'Cloud IX does not use your Sky conversations to train AI models.',
+];
+
+const confidentiality = [
+  { term: 'Confidential resources.', text: "Information you send to a resource marked confidential (for example, counseling services) is not shared with Title IX, campus security, or other Institution offices by Cloud IX, except where law requires it, such as an imminent threat to someone's safety." },
+  { term: 'Reports to the Institution.', text: 'Information you submit through a reporting form goes to the Institution office named on the form.' },
+  { term: 'Anonymous reporting.', text: "Where your Institution enables it, you may report an incident without giving your name. Some information, such as the type, date, and general location of an incident, may be used in the Institution's Clery Act statistics, which never include victims' names." },
+  { term: 'Usage reports.', text: 'Your Institution receives aggregated, de-identified reports about how the Platform is used. Your individual Sky conversations are not shared with your Institution unless you submit a formal report or the law requires disclosure.' },
+];
+
+const collected = [
+  { term: 'We collect:', text: 'your sign-in identifier, institutional email, role, and campus; what you choose to submit; and limited security logs.' },
+  { term: 'We do not ask for:', text: 'Social Security numbers, financial account numbers, government ID numbers, dates of birth, or precise location. Please do not volunteer them.' },
+  { term: 'We do not:', text: 'sell your information, use it for advertising, or use identifiable information to develop other products. We may use de-identified, aggregated data to maintain and improve the Platform.' },
+];
+
+const prohibited = [
+  'Submit content that is unlawful, threatening, harassing, hateful, sexually explicit, or knowingly false, including knowingly false reports about another person.',
+  'Harass, threaten, or harm anyone, or exploit or endanger a minor.',
+  'Impersonate anyone or misrepresent your identity or affiliation.',
+  "Share another person's private information, images, or recordings without a lawful basis, except as needed to make a good-faith report through the Platform.",
+  'Upload malware or interfere with, overload, or gain unauthorized access to the Platform or any connected system.',
+  'Circumvent security features, or scrape, mine, or harvest data from the Platform with bots or other automated tools.',
+  "Copy, modify, reverse engineer, resell, frame, or mirror the Platform or Cloud IX's proprietary materials, or use them to build a competing product.",
+  'Use the Platform for commercial purposes or unsolicited bulk messages.',
+  "Use the Platform in violation of law or your Institution's policies.",
+  'Help or encourage anyone else to do any of the above.',
+];
+---
+<BaseLayout title="Terms of Use" description="The rules for using Cloud IX, including what stays confidential and what your institution sees.">
+  <SkyHero>
+    <PageIntro pill="Legal" gap={16} lead="The rules for using Cloud IX, including what stays confidential and what your institution sees.">
+      <Fragment slot="title">Terms of <span class="glowtext hl">use</span></Fragment>
+    </PageIntro>
+  </SkyHero>
+
+  <LegalDocWithToc
+    title="Cloud IX Terms of Use and Acceptable Use Policy"
+    updated="November 16th, 2026"
+    updatedTone="link"
+    notice="If you are in danger or need emergency help, call 911. For a mental-health crisis, call or text 988. Cloud IX and Sky are not emergency services and do not monitor conversations in real time."
+    toc={toc}
+    crossLink={{ href: routes.privacy, label: 'Read our Privacy Notice →' }}
+  >
+    <h2 id="introduction">Introduction</h2>
+    <p>Cloud IX on Campus Inc. ("Cloud IX," "we," "us") provides a software platform (the "Platform") that helps colleges and universities connect students and employees with on-campus support resources and meet their Clery Act obligations.</p>
+    <p>You receive access through your college, university, or university system (the "Institution"), which has a written agreement with Cloud IX (the "Services Agreement"). The Institution, not you, is our customer. These Terms of Use ("Terms") govern your individual use of the Platform. If these Terms conflict with the Services Agreement, the Services Agreement controls. Nothing in these Terms waives any sovereign immunity or other protection the Institution or you have under applicable law.</p>
+    <p>By using the Platform, you agree to these Terms. If you do not agree, do not use the Platform.</p>
+
+    <h2 id="1-eligibility">1. Eligibility</h2>
+    <p>You must be at least 18 years old and an enrolled student, employee, or other person the Institution has authorized. The Platform is not available to anyone under 18, including dual-enrollment and early-college students, and Institutions may not provide access to them.</p>
+
+    <h2 id="2-license">2. License</h2>
+    <p>Subject to these Terms and the Services Agreement, Cloud IX grants you a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to use the Platform for purposes the Institution has authorized. You receive no ownership or intellectual-property rights in the Platform.</p>
+
+    <h2 id="3-sky-the-ai-assistant">3. Sky, the Assistant</h2>
+    <p>Sky is an automated assistant that answers questions and points you to resources. Sky is built by Cloud IX using LangChain and runs on Google Cloud Platform in the United States. Your messages are processed only to generate Sky’s replies, which draw on resources provided by your Institution along with local and national support services. Sky does not monitor conversations in real time, and conversations are deleted after 30 days unless your Institution sets a different period, as described in our <a href={routes.privacy}>Privacy Notice</a>.</p>
+    <ol>
+      {skyNotes.map((item) => <li>{item}</li>)}
+    </ol>
+
+    <h2 id="4-what-is-confidential-and-what-your-institution-sees">4. What Is Confidential and What Your Institution Sees</h2>
+    <p>Your Institution decides how the Platform is configured. Before you share sensitive information, the Platform will show you which of the following applies:</p>
+    <ol>
+      {confidentiality.map((c) => <li><strong>{c.term}</strong> {c.text}</li>)}
+    </ol>
+    <p>Cloud IX may also disclose information when required by law, subpoena, or court order. Where the law allows, we will tell the Institution first so it can respond.</p>
+
+    <h2 id="5-information-we-collect">5. Information We Collect</h2>
+    <p>We collect only what we need to run the Platform for your Institution. Our Privacy Notice explains this in detail. In short:</p>
+    <ol>
+      {collected.map((c) => <li><strong>{c.term}</strong> {c.text}</li>)}
+    </ol>
+    <p>The Institution controls your information, and Cloud IX processes it on the Institution's instructions. Where the Family Educational Rights and Privacy Act (FERPA) applies, Cloud IX acts as a "school official" under the Institution's direct control. To access, correct, or delete your information, contact your Institution or <a href="mailto:support@cloud-ix.com">support@cloud-ix.com</a>.</p>
+
+    <h2 id="6-acceptable-use">6. Acceptable Use</h2>
+    <p>You agree not to:</p>
+    <ol>
+      {prohibited.map((item) => <li>{item}</li>)}
+    </ol>
+
+    <h2 id="7-your-right-to-discuss-your-own-experiences">7. Your Right to Discuss Your Own Experiences</h2>
+    <p>Nothing in these Terms limits your right to keep your own records of what you submit, to discuss your own experiences, to report to law enforcement or a government agency, or to exercise rights under Title IX, the Clery Act, or other law. The restrictions in Section 6 on sharing apply to Cloud IX's proprietary materials and to other people's private information, not to your own account of events.</p>
+
+    <h2 id="8-your-account">8. Your Account</h2>
+    <p>Keep your credentials secure and do not let anyone else use your account. Report any unauthorized use to your Institution and to <a href="mailto:support@cloud-ix.com">support@cloud-ix.com</a> right away.</p>
+
+    <h2 id="9-what-you-submit">9. What You Submit</h2>
+    <p>You or your Institution keep ownership of what you submit. You give Cloud IX a limited, non-exclusive license to host, process, and transmit your submissions only as needed to provide the Platform to your Institution and as described in Section 4. This license ends when your submissions are deleted, except for copies the Institution directs us to keep or the law requires us to keep.</p>
+
+    <h2 id="10-feedback">10. Feedback</h2>
+    <p>If you send ideas or suggestions about the Platform, Cloud IX may use them without obligation to you. Feedback does not include your personal information or anything you submit through the Platform's support or reporting features.</p>
+
+    <h2 id="11-intellectual-property">11. Intellectual Property</h2>
+    <p>The Platform, its software, and Cloud IX's content, names, and logos belong to Cloud IX or its licensors. All rights not expressly granted are reserved.</p>
+
+    <h2 id="12-export-controls">12. Export Controls</h2>
+    <p>You may not use the Platform in violation of U.S. export laws or from a country under U.S. embargo.</p>
+
+    <h2 id="13-disclaimers">13. Disclaimers</h2>
+    <p>To the extent permitted by law, the Platform is provided "as is." Cloud IX's warranties and responsibilities run to your Institution under the Services Agreement. Nothing in these Terms limits any right you have that cannot be waived under applicable law.</p>
+
+    <h2 id="14-suspension-and-termination">14. Suspension and Termination</h2>
+    <p>Cloud IX may suspend or end your access if your Institution directs us to, if your access under the Services Agreement ends, or if we reasonably believe you have violated these Terms or the law. Where practical, and where it would not create a safety risk, we will notify you and your Institution. Suspension does not delete reports you have already submitted to your Institution.</p>
+
+    <h2 id="15-when-the-institution-s-agreement-ends">15. When the Institution's Agreement Ends</h2>
+    <p>When the Services Agreement ends, Cloud IX returns the Institution's data in a standard format and then deletes it, as the Services Agreement provides. Requests for your own records should go to your Institution.</p>
+
+    <h2 id="16-copyright-complaints">16. Copyright Complaints</h2>
+    <p>If you believe material on the Platform infringes your copyright, send a notice to our designated agent, Isabella Kulstad, Cloud IX on Campus Inc., 927 Poeyfarre Street, 514, New Orleans, LA 70130, <a href="mailto:support@cloud-ix.com">support@cloud-ix.com</a>, that includes: (a) your physical or electronic signature; (b) identification of the copyrighted work; (c) identification of the material you believe infringes and enough information for us to locate it; (d) your contact information; (e) a statement that you believe in good faith the use is unauthorized; and (f) a statement, under penalty of perjury, that the notice is accurate and that you are the owner or authorized to act for the owner. If your material was removed and you believe that was a mistake, you may send a counter-notice to the same agent. We may end the access of repeat infringers.</p>
+
+    <h2 id="17-reporting-misuse">17. Reporting Misuse</h2>
+    <p>To report misuse of the Platform by another user, email <a href="mailto:support@cloud-ix.com">support@cloud-ix.com</a>. This address is for Platform misuse only. To report a crime, call 911 or your campus police; to report sexual misconduct or discrimination, contact your Institution's Title IX office. We will review misuse reports and may share them with your Institution. We may not be able to tell you the outcome.</p>
+
+    <h2 id="18-accessibility">18. Accessibility</h2>
+    <p>Cloud IX designs the Platform to conform to WCAG 2.1 Level AA. To report an accessibility barrier or request an accommodation, contact <a href="mailto:support@cloud-ix.com">support@cloud-ix.com</a>.</p>
+
+    <h2 id="19-changes">19. Changes</h2>
+    <p>We may update the Platform or these Terms. If a change materially affects your rights or how your information is used, we will notify you or your Institution in advance through the Platform or by email. Other changes take effect when posted with a new Last Revised date.</p>
+
+    <h2 id="20-contact">20. Contact</h2>
+    <p>Cloud IX on Campus Inc., 927 Poeyfarre Street, 514, New Orleans, LA 70130, <a href="mailto:support@cloud-ix.com">support@cloud-ix.com</a>.</p>
+  </LegalDocWithToc>
+</BaseLayout>

@@ -1,0 +1,360 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkyHero from '../components/SkyHero.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Button from '../components/Button.astro';
+import Cloud from '../components/Cloud.astro';
+import { routes, external, hotline } from '../data/site';
+
+/** Form copy per topic. Index 0 (book a demo) is reached via the Book a demo link, kept for parity with the design. */
+const topicConfig = [
+  { title: 'Book a demo or pilot', hint: 'Tell us about your campus and we’ll set up a 20-minute walkthrough.', org: true, orgLabel: 'Institution', orgPh: 'Your university', msg: 'What would you like to see? Any timeline we should know about?' },
+  { title: 'Partner with us', hint: 'We work with advocates, hotlines and organizations who share our mission.', org: true, orgLabel: 'Organization', orgPh: 'Your organization', msg: 'What kind of partnership are you imagining?' },
+  { title: 'Press & media', hint: 'Interviews, features and speaking requests.', org: true, orgLabel: 'Outlet or organization', orgPh: 'Publication, podcast or event', msg: 'Tell us about your story and deadline.' },
+  { title: 'Careers', hint: 'See open roles on our hiring page, or introduce yourself here.', org: false, orgLabel: '', orgPh: '', msg: 'What would you love to work on at Cloud IX?' },
+  { title: 'Send us a message', hint: 'Questions, ideas or feedback — we read everything.', org: false, orgLabel: '', orgPh: '', msg: 'How can we help?' },
+];
+const defaultTopic = 1;
+const initial = topicConfig[defaultTopic];
+
+const topics = [
+  { index: 1, title: 'Partnerships', body: 'Advocacy orgs, hotlines and other partners.', icon: '<path d="M8 12h8"></path><path d="M9 7H7a5 5 0 0 0 0 10h2"></path><path d="M15 7h2a5 5 0 0 1 0 10h-2"></path>' },
+  { index: 2, title: 'Press & media', body: 'Interviews, features and speaking.', icon: '<path d="M4 20V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14l-4-2-4 2-4-2-4 2Z"></path><path d="M8 9h8M8 13h5"></path>' },
+  { index: 3, title: 'Careers', body: 'Join the team building Cloud IX.', icon: '<rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>' },
+  { index: 4, title: 'Something else', body: 'Questions, ideas or feedback.', icon: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12Z"></path>' },
+];
+
+const direct = [
+  // TODO: replace placeholder email address once confirmed.
+  { label: 'Email', value: '[hello@cloud-ix.com]', href: 'mailto:hello@cloud-ix.com', icon: '<rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path>', fill: false },
+  { label: 'Based in', value: 'New Orleans, Louisiana', href: null, icon: '<path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.5"></circle>', fill: false },
+  // TODO: add the LinkedIn company page URL.
+  { label: 'LinkedIn', value: '[Cloud IX on LinkedIn]', href: '#', icon: '<path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm7 0h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.5Z"></path>', fill: true },
+  { label: 'Blog', value: 'Read our Substack', href: external.blog, icon: '<path d="M4 20V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14l-4-2-4 2-4-2-4 2Z"></path><path d="M8 9h8M8 13h5"></path>', fill: false },
+];
+---
+<BaseLayout title="Contact" description="Partnering with us, writing about our work, or just curious — we’d love to hear from you.">
+  <SkyHero>
+    <PageIntro
+      pad={[56, 230]}
+      titleSize="clamp(2.6rem, 5.4vw, 4.4rem)"
+      leadSize={20}
+      leadMaxWidth="36rem"
+      lead="Partnering with us, writing about our work, or just curious — we’d love to hear from you."
+    >
+      <Fragment slot="title">Let’s <span class="glowtext hl">talk.</span></Fragment>
+    </PageIntro>
+  </SkyHero>
+
+  <!-- Support notice -->
+  <section aria-label="Need support now?" class="container notice-wrap">
+    <div class="card notice">
+      <div class="stars1 notice__stars" aria-hidden="true"></div>
+      <div class="notice__copy">
+        <svg class="notice__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8DBBF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"></path></svg>
+        <div class="notice__text">
+          <span class="notice__title">Looking for support?</span>
+          <span class="notice__body">This form isn’t monitored around the clock, so please don’t share details of an experience here. You can reach trained help any time.</span>
+        </div>
+      </div>
+      <div class="notice__actions">
+        <a class="btn notice__btn notice__btn--light" href={hotline.tel}>Call {hotline.label}</a>
+        <a class="btn notice__btn notice__btn--outline" href="tel:911">In danger? Call 911</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <section class="container main">
+    <!-- Topics -->
+    <div class="topics">
+      <h2 class="topics__title">How can we help?</h2>
+      <a class="card topic topic--demo" href={routes.bookDemo}>
+        <span class="tile topic__tile" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 10h18"></path></svg></span>
+        <span class="topic__text topic__text--grow"><span class="topic__title">University? Book a demo</span><span class="topic__body">Pick a time on our calendar instead.</span></span>
+        <svg class="topic__arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8DBBF5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </a>
+      <div class="topic-group" role="group" aria-label="Message topic" data-topics>
+        {topics.map((t) => (
+          <button
+            type="button"
+            class="card topic"
+            data-topic={t.index}
+            aria-pressed={t.index === defaultTopic ? 'true' : 'false'}
+            aria-controls="contact-form"
+          >
+            <span class="tile topic__tile" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={t.icon}></svg></span>
+            <span class="topic__text"><span class="topic__title">{t.title}</span><span class="topic__body">{t.body}</span></span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="card form-card" id="contact-form">
+      <form class="form" novalidate data-contact-form>
+        <div class="form__head">
+          <h2 id="form-h" class="form__title" data-form-title>{initial.title}</h2>
+          <p class="form__hint" data-form-hint>{initial.hint}</p>
+        </div>
+        <div class="form__row">
+          <label class="ctl">Name *
+            <input class="ctl__input" type="text" name="name" autocomplete="name" placeholder="Your name" required aria-required="true" />
+          </label>
+          <label class="ctl">Email *
+            <input class="ctl__input" type="email" name="email" autocomplete="email" placeholder="you@example.edu" required aria-required="true" />
+          </label>
+        </div>
+        <div class="form__row" data-org-row hidden={!initial.org}>
+          <label class="ctl"><span data-org-label>{initial.orgLabel}</span>
+            <input class="ctl__input" type="text" name="org" autocomplete="organization" placeholder={initial.orgPh} data-org-input />
+          </label>
+          <label class="ctl">Your role
+            <input class="ctl__input" type="text" name="role" autocomplete="organization-title" placeholder="e.g. Title IX Coordinator" />
+          </label>
+        </div>
+        <label class="ctl">Message *
+          <textarea class="ctl__input ctl__input--area" name="message" rows="5" placeholder={initial.msg} required aria-required="true" data-msg-input></textarea>
+        </label>
+        <p role="alert" class="form__error" data-form-error hidden></p>
+        <button type="submit" class="btn form__submit">Send message</button>
+        <p class="form__note">We usually reply within [2 business days]. See our <a href={routes.privacy}>privacy policy</a>.</p>
+      </form>
+
+      <div class="rise done" data-form-done hidden>
+        <div class="bob done__badge" aria-hidden="true">
+          <svg width="72" height="54" viewBox="0 -3 40 31"><path d="M11 26h20a8 8 0 0 0 1.2-15.9A10 10 0 0 0 13 8.2 9 9 0 0 0 11 26Z" fill="#2563A8"></path><path d="m15 16 3.5 3.5L26 12" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+        <h2 class="done__title" tabindex="-1" data-done-title>Message sent</h2>
+        <p class="done__text">Thanks, <span data-done-name>there</span>. We’ll get back to you at <strong data-done-email></strong> within [2 business days].</p>
+        <div class="done__actions">
+          <Button href={routes.home} size="md">Back to home</Button>
+          <button type="button" class="btn done__again" data-form-reset>Send another</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Direct contact -->
+  <section aria-labelledby="direct-h" class="container direct">
+    <Cloud top={0} width={240} duration={110} delay={-60} fill="#D6E6F8" opacity={0.9} />
+    <h2 id="direct-h" class="direct__title">Prefer to reach out directly?</h2>
+    <ul class="direct__grid" role="list">
+      {direct.map((d) => {
+        const Tag = d.href ? 'a' : 'div';
+        return (
+          <li>
+            <Tag class="card channel" href={d.href ?? undefined}>
+              <div class="tile channel__tile"><svg width="22" height="22" viewBox="0 0 24 24" fill={d.fill ? 'currentColor' : 'none'} stroke={d.fill ? 'none' : 'currentColor'} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={d.icon}></svg></div>
+              <div class="channel__text"><span class="channel__label">{d.label}</span><span class="channel__value">{d.value}</span></div>
+            </Tag>
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+</BaseLayout>
+
+<script define:vars={{ topicConfig }}>
+  // define:vars scripts are inlined as-is (not bundled), so keep this plain JS.
+  (() => {
+    const form = document.querySelector('[data-contact-form]');
+    const done = document.querySelector('[data-form-done]');
+    if (!form || !done) return;
+    const $ = (sel) => form.querySelector(sel);
+    const fields = { name: form.elements.namedItem('name'), email: form.elements.namedItem('email'), message: form.elements.namedItem('message') };
+    const errorEl = $('[data-form-error]');
+    const topicButtons = Array.from(document.querySelectorAll('[data-topics] [data-topic]'));
+    let tried = false;
+
+    const validate = () => {
+      const ok = {
+        name: !!fields.name.value.trim(),
+        email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.value.trim()),
+        message: !!fields.message.value.trim(),
+      };
+      const missing = [];
+      if (!ok.name) missing.push('your name');
+      if (!ok.email) missing.push('a valid email');
+      if (!ok.message) missing.push('a message');
+      return { ok, missing };
+    };
+
+    const paint = () => {
+      const { ok, missing } = validate();
+      Object.entries(fields).forEach(([key, el]) => {
+        const bad = tried && !ok[key];
+        el.classList.toggle('is-invalid', bad);
+        if (bad) el.setAttribute('aria-invalid', 'true');
+        else el.removeAttribute('aria-invalid');
+      });
+      const show = tried && missing.length > 0;
+      errorEl.hidden = !show;
+      errorEl.textContent = show ? 'Please add ' + missing.join(', ') + '.' : '';
+      return missing;
+    };
+
+    const showForm = (visible) => {
+      form.hidden = !visible;
+      done.hidden = visible;
+    };
+
+    const setTopic = (index) => {
+      const c = topicConfig[index];
+      topicButtons.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.topic) === index)));
+      $('[data-form-title]').textContent = c.title;
+      $('[data-form-hint]').textContent = c.hint;
+      $('[data-org-row]').hidden = !c.org;
+      $('[data-org-label]').textContent = c.orgLabel;
+      $('[data-org-input]').placeholder = c.orgPh;
+      $('[data-msg-input]').placeholder = c.msg;
+      tried = false;
+      paint();
+      showForm(true);
+    };
+
+    topicButtons.forEach((b) => b.addEventListener('click', () => {
+      setTopic(Number(b.dataset.topic));
+      document.getElementById('form-h')?.scrollIntoView({ block: 'start' });
+    }));
+
+    form.addEventListener('input', () => { if (tried) paint(); });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      tried = true;
+      const missing = paint();
+      if (missing.length) return;
+      // TODO: send the message to the backend (e.g. POST new FormData(form) to the contact endpoint) once one exists.
+      const name = fields.name.value.trim();
+      done.querySelector('[data-done-name]').textContent = name.split(/\s+/)[0] || 'there';
+      done.querySelector('[data-done-email]').textContent = fields.email.value.trim();
+      tried = false;
+      showForm(false);
+      done.querySelector('[data-done-title]').focus();
+    });
+
+    done.querySelector('[data-form-reset]').addEventListener('click', () => {
+      form.reset();
+      tried = false;
+      paint();
+      showForm(true);
+      fields.name.focus();
+    });
+  })();
+</script>
+
+<style>
+  ul { list-style: none; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
+
+  /* ---------- Support notice ---------- */
+  .notice-wrap { position: relative; z-index: 2; margin-top: -150px; padding-bottom: 32px; }
+  .notice {
+    background: var(--night); color: #FFFFFF; border: 1px solid var(--night-2); border-radius: 24px; padding: 24px 28px;
+    display: flex; flex-wrap: wrap; gap: 18px 28px; align-items: center; position: relative; overflow: hidden;
+  }
+  .notice__stars { opacity: 0.6; }
+  .notice__copy { position: relative; flex: 1 1 420px; min-width: 0; display: flex; gap: 16px; align-items: flex-start; }
+  .notice__icon { flex: none; margin-top: 2px; }
+  .notice__text { display: flex; flex-direction: column; gap: 4px; }
+  .notice__title { font-family: var(--font-display); font-weight: 600; font-size: 20px; }
+  .notice__body { color: var(--on-dark); font-size: 16px; }
+  .notice__actions { position: relative; display: flex; flex-wrap: wrap; gap: 10px; }
+  .notice__btn {
+    display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box;
+    padding: 12px 20px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 15px;
+  }
+  .notice__btn--light { color: var(--night); background: #FFFFFF; }
+  .notice__btn--light:hover { color: var(--night); }
+  .notice__btn--outline { color: #FFFFFF; border: 1.5px solid rgba(169, 201, 238, 0.45); }
+  .notice__btn--outline:hover { color: #FFFFFF; }
+
+  /* ---------- Main ---------- */
+  .main { position: relative; padding-top: 24px; padding-bottom: 96px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
+
+  .topics { flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+  .topic-group { display: flex; flex-direction: column; gap: 14px; }
+  .topics__title { margin: 0 0 4px; font-family: var(--font-display); font-weight: 600; font-size: 26px; color: var(--night); }
+  .topic {
+    font: inherit; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box;
+    display: flex; gap: 16px; align-items: center; padding: 18px 20px; border-radius: 20px; text-decoration: none;
+    background: #FFFFFF; border: 2px solid var(--line);
+  }
+  .topic[aria-pressed='true'] { border-color: var(--accent); box-shadow: 0 12px 30px rgba(37, 99, 168, 0.18); }
+  .topic__tile {
+    flex: none; width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    background: var(--tint); color: #174A82;
+  }
+  .topic[aria-pressed='true'] .topic__tile { background: var(--accent); color: #FFFFFF; }
+  .topic__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; line-height: 1.6; }
+  .topic__text--grow { flex: 1; }
+  .topic__title { font-weight: 700; color: var(--night); font-size: 17px; }
+  .topic__body { font-size: 15px; color: var(--muted); }
+  .topic--demo { background: var(--night); border-color: var(--night); }
+  .topic--demo .topic__tile { background: var(--night-2); color: var(--sky-glow); }
+  .topic--demo .topic__title { color: #FFFFFF; }
+  .topic--demo .topic__body { color: var(--on-dark); }
+  .topic__arrow { flex: none; }
+
+  /* ---------- Form ---------- */
+  .form-card {
+    flex: 1.3 1 520px; min-width: 0; box-sizing: border-box; background: #FFFFFF; border: 1px solid var(--line-strong);
+    border-radius: 32px; padding: 40px; box-shadow: 0 30px 80px rgba(37, 99, 168, 0.16);
+  }
+  .form { display: flex; flex-direction: column; gap: 20px; }
+  .form__head { display: flex; flex-direction: column; gap: 6px; }
+  .form__title { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 28px; color: var(--night); }
+  .form__hint { margin: 0; color: var(--muted); font-size: 15px; }
+  .form__row { display: flex; flex-wrap: wrap; gap: 16px; }
+  .form__row .ctl { flex: 1 1 220px; min-width: 0; }
+  .ctl { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 15px; color: var(--night); }
+  .ctl__input {
+    font: inherit; font-weight: 400; padding: 12px 14px; border: 1.5px solid #D5E2F2; border-radius: 12px;
+    background: var(--page); color: var(--night); width: 100%; box-sizing: border-box; min-width: 0;
+  }
+  .ctl__input--area { resize: vertical; }
+  .ctl__input:focus { outline: 3px solid rgba(47, 111, 196, 0.35); outline-offset: 1px; border-color: var(--accent); }
+  .ctl__input.is-invalid { border-color: #D64545; }
+  .form__error { margin: 0; padding: 12px 16px; border-radius: 12px; background: #FDECEC; color: #9B1C1C; font-size: 15px; font-weight: 600; }
+  .form__submit {
+    align-self: stretch; text-align: center; color: #FFFFFF; background: var(--accent); padding: 16px 28px; border: 0;
+    border-radius: 999px; font: inherit; font-weight: 700; font-size: 17px; cursor: pointer;
+  }
+  .form__note { margin: 0; text-align: center; font-size: 13px; color: var(--muted); }
+
+  .done { display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; padding: 28px 0; }
+  .done__badge {
+    width: 120px; height: 120px; border-radius: 50%; background: var(--tint); display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 10px var(--page), 0 0 50px rgba(37, 99, 168, 0.3);
+  }
+  .done__title { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 32px; color: var(--night); }
+  .done__title:focus { outline: none; }
+  .done__text { margin: 0; color: var(--ink-2); font-size: 18px; max-width: 28rem; }
+  .done__text strong { color: var(--night); overflow-wrap: anywhere; }
+  .done__actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  .done__again {
+    font: inherit; font-weight: 700; color: var(--night); background: transparent; border: 1.5px solid var(--line-strong);
+    padding: 12.5px 24px; border-radius: 999px; cursor: pointer; min-height: 44px;
+  }
+
+  /* ---------- Direct contact ---------- */
+  .direct { position: relative; padding-bottom: 112px; display: flex; flex-direction: column; gap: 28px; }
+  .direct__title {
+    position: relative; margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.8rem, 3vw, 2.3rem);
+    letter-spacing: -0.02em; line-height: 1.6; color: var(--night);
+  }
+  .direct__grid { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 20px; }
+  .direct__grid li { display: flex; }
+  .channel {
+    flex: 1; background: #FFFFFF; border: 1px solid var(--line); border-radius: 22px; padding: 22px 24px;
+    display: flex; gap: 16px; align-items: center; text-decoration: none;
+  }
+  .channel__tile {
+    flex: none; width: 48px; height: 48px; border-radius: 14px; background: var(--tint); color: #174A82;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .channel__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .channel__label { font-size: 14px; font-weight: 700; color: var(--muted); }
+  .channel__value { font-weight: 700; color: var(--night); font-size: 17px; overflow-wrap: anywhere; }
+</style>

@@ -1,0 +1,483 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SkyHero from '../../components/SkyHero.astro';
+import Button from '../../components/Button.astro';
+import Cloud from '../../components/Cloud.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import FaqItem from '../../components/FaqItem.astro';
+import { routes } from '../../data/site';
+
+const heroResources = [
+  { label: 'Title IX Office', scope: 'Campus', dot: 'var(--link)', delay: '.5s' },
+  { label: 'Counseling & Victim Advocacy', scope: 'Campus', dot: 'var(--link)', delay: '.8s' },
+  { label: 'Local rape crisis center', scope: 'Local', dot: '#6E8FC4', delay: '1.1s' },
+  { label: 'National hotlines', scope: 'National', dot: 'var(--line-sky)', delay: '1.4s' },
+];
+
+const stats = [
+  {
+    figure: '2 in 5',
+    text: 'college students experience sexual violence.',
+    source: { before: 'Source: AAU Campus Climate Survey (2019), via ', label: 'RAINN', href: 'https://rainn.org/red-zone/campus-sexual-violence-statistics/', after: '' },
+  },
+  {
+    figure: '1 in 3',
+    text: 'survivors of sexual assault drop out of college.',
+    source: { before: 'Source: Molstad, Weinhardt & Jones, ', label: 'systematic review', href: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC9660281/', after: ' (2021)' },
+  },
+  {
+    figure: '95%',
+    text: 'of campus rapes go unreported.',
+    source: { before: 'Source: Center for Public Integrity, via ', label: 'ACLU', href: 'https://www.aclu.org/news/smart-justice/new-report-shows-95-campus-rapes-go-unreported', after: '' },
+  },
+];
+
+const features = [
+  {
+    title: 'Campus-specific guidance',
+    body: 'Sky is trained on your policies, offices and reporting options, plus local and national hotlines — so every answer points to a real place on your campus.',
+    icon: '<path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"></path><circle cx="12" cy="9" r="2.5"></circle>',
+  },
+  {
+    title: 'Confidential by design',
+    body: 'A private, end-to-end encrypted chat. Students can ask hard questions before they’re ready to talk to anyone.',
+    icon: '<rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path>',
+  },
+  {
+    title: 'Student autonomy, always',
+    body: 'Cloud IX doesn’t investigate or determine outcomes. It explains options and lets students decide what happens next.',
+    icon: '<path d="M12 3v10"></path><path d="m8 9 4 4 4-4"></path><path d="M4 17v3h16v-3"></path>',
+  },
+  {
+    title: 'Insights for outreach',
+    body: 'Anonymized, quality-tested conversations show what students are asking, so you can sharpen prevention and outreach.',
+    icon: '<path d="M3 3v18h18"></path><path d="m7 15 4-4 3 3 5-6"></path>',
+  },
+  {
+    title: 'Fits your protocols',
+    body: 'Cloud IX integrates with your existing processes and routes students to the people already doing this work.',
+    icon: '<path d="M10 3h4v3a2 2 0 1 0 4 0V3h3v7h-3a2 2 0 1 0 0 4h3v7h-7v-3a2 2 0 1 0-4 0v3H3v-7h3a2 2 0 1 0 0-4H3V3h7Z"></path>',
+  },
+  {
+    title: 'Built and supported in house',
+    body: 'Our own team builds, tests and supports every part of the platform — and works with you directly.',
+    icon: '<path d="m9 18-6-6 6-6M15 6l6 6-6 6"></path>',
+  },
+];
+
+const roles = [
+  {
+    tab: 'Title IX office',
+    title: 'Help students find you — on their terms.',
+    body: 'Many students never contact your office because they don’t know what will happen if they do. Cloud IX explains reporting options plainly and privately, so the students who reach you arrive informed.',
+    points: [
+      'Clear, policy-accurate explanations of reporting and confidential options',
+      'Students routed to the right office the first time',
+      'Supports your compliance work without replacing your team',
+    ],
+  },
+  {
+    tab: 'Student affairs',
+    title: 'Support that scales with your campus.',
+    body: 'Cloud IX gives every student a private place to start — any hour, from any device — while your staff focus on the conversations that need a person.',
+    points: [
+      'Consistent guidance across residence life, orientation and RA training',
+      'A resource students can find through RAs, flyers and your website',
+      'Insights to guide prevention programming',
+    ],
+  },
+  {
+    tab: 'Counseling & advocacy',
+    title: 'A bridge to your counselors and advocates.',
+    body: 'Sky is trauma-informed and built to connect, not replace. Students learn what confidential support looks like before they walk through your door.',
+    points: [
+      'Confidential resources surfaced first, clearly labeled',
+      'Local crisis centers and national hotlines included',
+      'Language reviewed with advocates',
+    ],
+  },
+  {
+    tab: 'IT & procurement',
+    title: 'Everything your review needs.',
+    body: 'We’ve done the paperwork up front so procurement doesn’t stall: HECVAT, privacy policy and statement of work are ready to share.',
+    points: [
+      'HECVAT completed',
+      'End-to-end encryption in the app and on our servers',
+      'Built and maintained entirely in house',
+    ],
+  },
+];
+
+const steps = [
+  { title: 'Discovery call', body: 'We learn how your campus responds today and who’s involved.', when: 'Week 1' },
+  { title: 'Share your resources', body: 'You send policies, offices and contacts; we map them with you.', when: 'Weeks 1–2' },
+  { title: 'Train & test Sky', body: 'We tailor Sky to your campus and quality-test it with your team.', when: 'Weeks 2–4' },
+  { title: 'Launch & outreach', body: 'Go live with RA, orientation and website toolkits — then review insights together.', when: 'Week 5+' },
+];
+
+const securityPoints = [
+  'End-to-end encryption',
+  'Anonymized, quality-tested conversations',
+  'In-house development — no outsourced code',
+];
+
+const securityDocs = [
+  { title: 'HECVAT', body: 'Higher Education Community Vendor Assessment Toolkit, completed.' },
+  { title: 'Privacy policy', body: 'How student data is handled, stored and protected.' },
+  { title: 'Statement of work', body: 'Scope, onboarding and support for your campus.' },
+];
+
+const faqs = [
+  { q: 'Does Cloud IX replace our Title IX office?', a: 'No. Cloud IX is a front door, not a replacement. It helps students understand their options and connects them to your Title IX office, counselors and advocates. It doesn’t investigate or determine outcomes.' },
+  { q: 'Does Cloud IX report conversations to the university?', a: 'Conversations are private and end-to-end encrypted. Students decide whether and how to contact your offices.' },
+  { q: 'What does our team see?', a: 'Anonymized, aggregated insights about the kinds of questions students ask — never identifiable conversations.' },
+  { q: 'How long does setup take?', a: 'Most of the work is mapping your resources and policies with us. A typical pilot goes from first call to launch in about five weeks.' },
+  { q: 'Is it HECVAT compliant?', a: 'Yes. Our HECVAT, privacy policy and statement of work are ready to share with your IT and procurement teams.' },
+  { q: 'What does it cost?', a: 'Pricing depends on your campus. We’ll walk through options together on your demo call.' },
+];
+
+const checkPath = '<path d="m5 12 5 5L20 7"></path>';
+const docPath = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"></path><path d="M14 3v5h5"></path>';
+---
+<BaseLayout title="For universities" description="Cloud IX gives students a private, encrypted place to ask their first questions — and routes them to your offices, advocates and hotlines with answers built on your own policies.">
+  <SkyHero
+    clouds={[
+      { top: 170, width: 300, duration: 95, delay: -55 },
+      { top: 400, width: 180, duration: 70, delay: -20 },
+    ]}
+    shoots={[{ top: 110, left: '52%' }]}
+  >
+    <div class="container hero">
+      <div class="hero__copy">
+        <span class="pill rise">For Title IX, student affairs &amp; counseling teams</span>
+        <h1 class="display hero__title rise">A confidential front door to <span class="glowtext hl">every resource your campus offers.</span></h1>
+        <p class="hero__lead rise">Cloud IX gives students a private, encrypted place to ask their first questions — and routes them to your offices, advocates and hotlines with answers built on your own policies.</p>
+        <div class="hero__actions rise">
+          <Button href="#pilot" size="lg">Become a pilot campus</Button>
+          <Button href={routes.hecvat} size="lg" variant="outline-white">Request our HECVAT</Button>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <svg class="spin hero__ring" viewBox="0 0 500 500" aria-hidden="true"><circle cx="250" cy="250" r="240" fill="none" stroke="#2563A8" stroke-opacity="0.18" stroke-dasharray="3 9"></circle><circle cx="250" cy="10" r="7" fill="#2563A8"></circle><circle cx="60" cy="390" r="4" fill="#A9C9EE"></circle></svg>
+        <div class="bob map-card">
+          <div class="map-card__head">
+            <span class="map-card__title">Your campus, mapped</span>
+            <span class="map-card__tag">Trained on your policies</span>
+          </div>
+          <ul class="map-card__list">
+            {heroResources.map((r) => (
+              <li class="rise map-card__row" style={`animation-delay:${r.delay}`}>
+                <span class="map-card__dot" style={`background:${r.dot}`}></span>
+                <span class="map-card__label">{r.label}</span>
+                <span class="map-card__scope">{r.scope}</span>
+              </li>
+            ))}
+          </ul>
+          <div class="map-card__foot">
+            <span class="map-card__badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>End-to-end encrypted</span>
+            <span class="map-card__badge map-card__badge--end"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"></path></svg>HECVAT compliant</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </SkyHero>
+
+  <!-- Why it matters -->
+  <section aria-labelledby="why-h" class="container section section--why">
+    <SectionHeading eyebrow="Why it matters" id="why-h" maxWidth="44rem">Your resources only help if students reach them.</SectionHeading>
+    <div class="stats">
+      {stats.map((s) => (
+        <div class="card panel stat">
+          <div class="glowtext stat__figure">{s.figure}</div>
+          <p class="stat__text">{s.text} <span class="stat__source">{s.source.before}<a href={s.source.href}>{s.source.label}</a>{s.source.after}</span></p>
+        </div>
+      ))}
+    </div>
+    <p class="why__note">Cloud IX helps your institution go beyond compliance: more students find the right office sooner, more stay enrolled, and your community sees a campus that takes support seriously.</p>
+  </section>
+
+  <!-- Features -->
+  <section id="features" aria-labelledby="feat-h" class="container section">
+    <Cloud top={0} width={260} duration={110} delay={-35} fill="var(--cloud)" opacity={0.9} />
+    <div class="relative">
+      <SectionHeading eyebrow="What your campus gets" id="feat-h">Built around your protocols, not ours</SectionHeading>
+    </div>
+    <div class="features">
+      {features.map((f) => (
+        <div class="card panel feature">
+          <div class="tile feature__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={f.icon}></svg></div>
+          <h3 class="h3 feature__title">{f.title}</h3>
+          <p class="text-2 flush">{f.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Who it's for (tabs) -->
+  <section aria-labelledby="roles-h" class="container section section--roles">
+    <SectionHeading eyebrow="Who it’s for" id="roles-h">One platform, every team that supports survivors</SectionHeading>
+    <div role="tablist" aria-label="Campus teams" class="roles__tabs" data-role-tabs>
+      {roles.map((r, i) => (
+        <button
+          type="button"
+          class="btn role-tab"
+          role="tab"
+          id={`role-tab-${i}`}
+          aria-controls={`role-panel-${i}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+        >{r.tab}</button>
+      ))}
+    </div>
+    <div class="roles__panel">
+      {roles.map((r, i) => (
+        <div class="rise role" role="tabpanel" id={`role-panel-${i}`} aria-labelledby={`role-tab-${i}`} hidden={i !== 0}>
+          <div class="role__copy">
+            <h3 class="display role__title">{r.title}</h3>
+            <p class="role__body">{r.body}</p>
+          </div>
+          <ul class="role__points">
+            {r.points.map((p) => (
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563A8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={checkPath}></svg><span>{p}</span></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Implementation -->
+  <section aria-labelledby="impl-h" class="container section section--impl">
+    <SectionHeading eyebrow="Getting started" id="impl-h">From first call to launch in four steps</SectionHeading>
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li class="card panel step">
+          <div class="tile step__num">{i + 1}</div>
+          <h3 class="h3 step__title">{s.title}</h3>
+          <p class="text-2 flush step__body">{s.body}</p>
+          <span class="step__when">{s.when}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- Security band -->
+  <section id="security" aria-labelledby="sec-h" class="night-band security">
+    <div class="stars1" aria-hidden="true"></div>
+    <svg class="spin-rev security__ring" viewBox="0 0 620 620" aria-hidden="true"><circle cx="310" cy="310" r="300" fill="none" stroke="#8DBBF5" stroke-opacity="0.18" stroke-dasharray="2 10"></circle><circle cx="310" cy="310" r="220" fill="none" stroke="#8DBBF5" stroke-opacity="0.1"></circle><circle cx="610" cy="310" r="6" fill="#8DBBF5"></circle></svg>
+    <div class="container security__inner">
+      <div class="security__copy">
+        <span class="eyebrow eyebrow--dark">Security &amp; compliance</span>
+        <h2 id="sec-h" class="h2 on-dark">Ready for your security review on day one.</h2>
+        <p class="security__lead">Cloud IX complies with HECVAT and industry standards. Interaction data is encrypted in the app and on our servers, and every line of code is written and maintained by our own team.</p>
+        <ul class="security__points">
+          {securityPoints.map((p) => (
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8DBBF5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={checkPath}></svg>{p}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="security__docs">
+        {securityDocs.map((d) => (
+          <div class="card doc">
+            <div class="tile icon-tile icon-tile--dark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={docPath}></svg></div>
+            <div class="doc__text"><span class="doc__title">{d.title}</span><span class="doc__body">{d.body}</span></div>
+            <a class="btn doc__btn" href={routes.hecvat}>Request</a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section aria-labelledby="faq-h" class="container faq">
+    <SectionHeading eyebrow="Questions from administrators" id="faq-h" align="center">The things your team will ask</SectionHeading>
+    <div class="faq__list" data-faq-exclusive>
+      {faqs.map((f, i) => (
+        <FaqItem question={f.q} open={i === 0}><p>{f.a}</p></FaqItem>
+      ))}
+    </div>
+  </section>
+
+  <!-- Pilot CTA -->
+  <section id="pilot" aria-labelledby="pilot-h" class="pilot">
+    <div class="pilot__card">
+      <div class="stars1" aria-hidden="true"></div>
+      <svg class="pilot__hill" viewBox="0 0 1100 640" aria-hidden="true"><ellipse cx="550" cy="640" rx="560" ry="560" fill="#FFFFFF"></ellipse><ellipse cx="550" cy="640" rx="560" ry="560" fill="none" stroke="#A9C9EE" stroke-width="2"></ellipse></svg>
+      <Cloud top={40} width={220} duration={60} />
+      <Cloud top={240} width={150} duration={45} delay={-25} />
+      <span class="pill pilot__pill">Now enrolling founding pilot campuses</span>
+      <h2 id="pilot-h" class="display pilot__title">Shape Cloud IX <span class="glowtext hl">with us.</span></h2>
+      <p class="pilot__lead">Pilot partners get hands-on onboarding, a direct line to our founders, and a real say in what we build next.</p>
+      <div class="pilot__actions">
+        <Button href={routes.bookDemo} size="lg">Book a demo</Button>
+        <Button href={routes.contact} size="lg" variant="outline-white">Contact the team</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Role tabs: one selected at a time, arrow-key navigation (WAI-ARIA tabs pattern).
+  document.querySelectorAll<HTMLElement>('[data-role-tabs]').forEach((list) => {
+    const tabs = Array.from(list.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const select = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        tab.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(tab.getAttribute('aria-controls') ?? '');
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) tabs[index].focus();
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(i));
+      tab.addEventListener('keydown', (e) => {
+        const keys: Record<string, number> = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 };
+        if (!(e.key in keys)) return;
+        e.preventDefault();
+        select((keys[e.key] + tabs.length) % tabs.length, true);
+      });
+    });
+  });
+
+  // FAQ: only one answer open at a time, as in the design.
+  document.querySelectorAll<HTMLElement>('[data-faq-exclusive]').forEach((group) => {
+    const items = Array.from(group.querySelectorAll<HTMLDetailsElement>('details'));
+    items.forEach((item) => {
+      item.addEventListener('toggle', () => {
+        if (!item.open) return;
+        items.forEach((other) => { if (other !== item) other.open = false; });
+      });
+    });
+  });
+</script>
+
+<style>
+  .flush { margin: 0; }
+
+  /* Section eyebrows on this page use the deeper blue from the design. */
+  .section :global(.eyebrow:not(.eyebrow--dark)),
+  .faq :global(.eyebrow) { color: #174A82; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative; z-index: 1;
+    padding-top: 64px; padding-bottom: 240px;
+    display: flex; flex-wrap: wrap; gap: 56px; align-items: center;
+  }
+  .hero__copy { flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 26px; }
+  .hero__title { font-size: clamp(2.4rem, 4.8vw, 4.1rem); line-height: 1.05; animation-delay: .1s; }
+  .hero__lead { margin: 0; font-size: 20px; max-width: 34rem; color: var(--ink-2); animation-delay: .2s; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 14px; animation-delay: .3s; }
+
+  .hero__visual { flex: 1 1 380px; min-width: 0; position: relative; display: flex; justify-content: center; align-items: center; min-height: 460px; }
+  .hero__ring { position: absolute; top: 50%; left: 50%; width: 500px; height: 500px; margin: -250px 0 0 -250px; pointer-events: none; }
+
+  .map-card {
+    position: relative; width: 434px; max-width: 100%; box-sizing: border-box;
+    background: #FFFFFF; border: 1px solid var(--line-strong); border-radius: 28px; padding: 26px;
+    box-shadow: 0 30px 70px rgba(37, 99, 168, 0.2);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .map-card__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .map-card__title { font-family: var(--font-display); font-weight: 600; font-size: 18px; color: var(--night); }
+  .map-card__tag { font-size: 12px; font-weight: 700; color: #174A82; background: var(--tint); padding: 4px 10px; border-radius: 999px; }
+  .map-card__list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .map-card__row { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px; }
+  .map-card__dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .map-card__label { font-weight: 600; color: var(--night); font-size: 15px; }
+  .map-card__scope { margin-left: auto; font-size: 13px; color: var(--muted); }
+  .map-card__foot { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 4px; border-top: 1px solid var(--line); }
+  .map-card__badge { margin-top: 12px; display: inline-flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 600; color: #174A82; }
+  .map-card__badge--end { margin-left: auto; }
+
+  /* ---------- Sections ---------- */
+  .section { position: relative; padding-bottom: 96px; display: flex; flex-direction: column; gap: 40px; }
+  .section--why { padding-top: 56px; }
+  .section--roles { gap: 32px; }
+  .section--impl { padding-bottom: 104px; }
+
+  .stats { display: flex; flex-wrap: wrap; gap: 24px; }
+  .stat { flex: 1 1 300px; padding: 36px 32px; display: flex; flex-direction: column; gap: 10px; }
+  .stat__figure { font-family: var(--font-display); font-weight: 600; font-size: 64px; line-height: 1; letter-spacing: -0.04em; color: var(--link); }
+  .stat__text { margin: 0; color: var(--ink-2); }
+  .stat__source { color: var(--muted); font-size: 14px; }
+  .why__note { margin: 0; font-size: 18px; color: var(--ink-2); max-width: 48rem; }
+
+  .features { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 24px; }
+  .feature { padding: 32px; display: flex; flex-direction: column; gap: 12px; }
+  .feature__icon { width: 52px; height: 52px; border-radius: 16px; background: var(--tint); color: #174A82; display: flex; align-items: center; justify-content: center; }
+  .feature__title { font-size: 21px; }
+
+  /* Tabs */
+  .roles__tabs { display: flex; flex-wrap: wrap; gap: 10px; }
+  .role-tab {
+    cursor: pointer; font: inherit; font-weight: 700; font-size: 16px; line-height: 1.6;
+    padding: 12px 22px; border-radius: 999px;
+    color: var(--night); background: #FFFFFF; border: 1.5px solid var(--line-strong);
+  }
+  .role-tab[aria-selected='true'] { color: #FFFFFF; background: var(--accent); border-color: var(--accent); }
+  .roles__panel { background: #FFFFFF; border: 1px solid var(--line); border-radius: 28px; padding: 44px 40px; box-shadow: 0 20px 50px rgba(37, 99, 168, 0.1); }
+  .role { display: flex; flex-wrap: wrap; gap: 40px; }
+  .role[hidden] { display: none; }
+  .role__copy { flex: 1 1 340px; display: flex; flex-direction: column; gap: 14px; }
+  .role__title { font-size: 28px; line-height: 1.2; letter-spacing: normal; }
+  .role__body { margin: 0; color: var(--ink-2); font-size: 18px; }
+  .role__points { flex: 1 1 340px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; color: var(--ink); }
+  .role__points li { display: flex; gap: 12px; align-items: flex-start; }
+  .role__points svg { flex: none; margin-top: 4px; }
+
+  /* Steps */
+  .steps { position: relative; margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 24px; }
+  .steps::before { content: ""; position: absolute; left: 24px; right: 24px; top: 34px; height: 2px; background: repeating-linear-gradient(90deg, var(--line-sky) 0 8px, transparent 8px 16px); }
+  .step { position: relative; box-sizing: border-box; flex: 1 1 240px; padding: 28px; display: flex; flex-direction: column; gap: 10px; }
+  .step__num {
+    width: 44px; height: 44px; border-radius: 50%; box-sizing: content-box;
+    background: var(--tint); color: #174A82; border: 3px solid var(--page);
+    font-family: var(--font-display); font-weight: 700; font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step__title { margin-top: 4px; font-size: 20px; }
+  .step__body { font-size: 16px; }
+  .step__when { margin-top: auto; font-size: 14px; font-weight: 700; color: var(--link); }
+
+  /* ---------- Security band ---------- */
+  .security { color: #FFFFFF; border: 0; }
+  .security__ring { position: absolute; top: -260px; left: -260px; width: 620px; height: 620px; opacity: 0.5; }
+  .security__inner { position: relative; padding-top: 104px; padding-bottom: 104px; display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start; }
+  .security__copy { flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+  .security__lead { margin: 0; font-size: 18px; color: var(--on-dark); }
+  .security__points { margin: 6px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .security__points li { display: flex; gap: 10px; align-items: center; color: #DCE8F7; }
+  .security__docs { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .doc {
+    background: rgba(27, 47, 94, 0.85); border: 1px solid rgba(169, 201, 238, 0.18); border-radius: 20px;
+    padding: 22px 24px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+  }
+  .doc__text { flex: 1 1 200px; display: flex; flex-direction: column; gap: 2px; }
+  .doc__title { font-family: var(--font-display); font-weight: 600; font-size: 19px; color: #FFFFFF; }
+  .doc__body { color: var(--on-dark); font-size: 15px; }
+  .doc__btn { color: var(--night); background: #FFFFFF; padding: 10px 18px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 15px; }
+  .doc__btn:hover { color: var(--night); }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 960px; padding-top: 104px; padding-bottom: 96px; display: flex; flex-direction: column; gap: 32px; }
+  .faq__list { display: flex; flex-direction: column; gap: 12px; }
+  .faq__list :global(.faq-item__answer) { max-width: 46rem; }
+
+  /* ---------- Pilot CTA ---------- */
+  .pilot { position: relative; padding: 0 var(--gutter) 112px; }
+  .pilot__card {
+    max-width: 1240px; margin: 0 auto; box-sizing: border-box;
+    background: var(--sky); border: 1px solid var(--line-sky); border-radius: 36px;
+    padding: 88px 32px 112px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: 22px; align-items: center; text-align: center;
+    box-shadow: 0 30px 80px rgba(37, 99, 168, 0.18);
+  }
+  .pilot__hill { position: absolute; left: 50%; bottom: -560px; width: 1100px; height: 640px; margin-left: -550px; }
+  .pilot__pill { position: relative; align-self: center; letter-spacing: normal; }
+  .pilot__title { position: relative; font-size: clamp(2.2rem, 4.6vw, 3.6rem); line-height: 1.05; }
+  .pilot__lead { position: relative; margin: 0; max-width: 36rem; font-size: 19px; color: var(--ink-2); }
+  .pilot__actions { position: relative; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+</style>

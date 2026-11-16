@@ -1,0 +1,416 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkyHero from '../components/SkyHero.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Button from '../components/Button.astro';
+import Cloud from '../components/Cloud.astro';
+import { routes, external } from '../data/site';
+
+/* Section toggles (design tweak defaults) */
+const showMentors = true;
+/** Team grid columns (2–4) — design default 3. */
+const columns = 3;
+/** 'circle' | 'rounded' — design default "Circle". */
+const photoShape: 'circle' | 'rounded' = 'circle';
+
+const avatarRadius = photoShape === 'circle' ? '50%' : '28px';
+const cardFlex = `0 1 calc((100% - ${(columns - 1) * 24}px) / ${columns})`;
+
+const linkedInPath =
+  'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm7 0h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.5Z';
+
+const founders = [
+  {
+    id: 'founder-h',
+    initials: 'IK',
+    role: 'Founder & CEO',
+    name: 'Isabella Kulstad',
+    bio: 'Isabella started Cloud IX as a senior in Tulane’s School of Science and Engineering, where she also led the school’s student government. What began as a Title IX “All In” grant project grew through Tulane’s Innovation Institute and the 4.0 Schools Tiny Fellowship into a platform built for campuses nationwide. [Confirm or update bio]',
+    quote: '“[A line from Isabella on why she built Cloud IX.]”',
+    linkedin: '#',
+    secondary: { label: 'Read her Substack', href: external.blog },
+    spinDelay: 0,
+  },
+  {
+    id: 'cto-h',
+    initials: null,
+    role: 'Cofounder & CTO',
+    name: 'Brian Wong',
+    bio: '[Two or three sentences on their background, what they lead at Cloud IX — architecture, encryption, the Sky model — and why this mission matters to them.]',
+    quote: '“[A line from your CTO on building technology students can trust.]”',
+    linkedin: '#',
+    secondary: { label: 'GitHub', href: '#' },
+    spinDelay: -18,
+  },
+];
+
+const team = [
+  'Head of Growth',
+  'Lead Engineer',
+  'Head of Partnerships',
+  'Product Designer',
+  'Campus Outreach',
+  'Advocate Liaison',
+].map((r) => ({
+  name: '[Name]',
+  role: `[Role, e.g. ${r}]`,
+  bio: '[One or two sentences on what they do at Cloud IX and what drives them.]',
+  linkedin: '#',
+  email: '#',
+}));
+
+const skyChips = ['Available any hour', 'End-to-end encrypted', 'Campus-specific answers'];
+
+const advisors = [1, 2].map((n) => ({
+  name: `[Advisor ${n} name]`,
+  title: '[Title, organization]',
+  bio: '[Two sentences on their expertise — e.g. Title IX compliance, survivor advocacy, higher-ed sales — and how they guide Cloud IX.]',
+  linkedin: '#',
+}));
+
+const mentors = [
+  { initials: 'JR', name: 'Jonathan Rich' },
+  { initials: 'DE', name: 'Dan Engel' },
+  { initials: 'JE', name: 'Jeff Eckerling' },
+  { initials: 'KT', name: 'Kim Tuleu' },
+  { initials: 'JJ', name: 'Jennifer Jeansonne' },
+];
+
+const values = [
+  {
+    title: 'Students first',
+    body: 'Every decision starts with what a student needs in their hardest moment — and their right to choose what happens next.',
+    icon: '<path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z"></path>',
+  },
+  {
+    title: 'Confidential by design',
+    body: 'Privacy isn’t a feature we add later. Encryption and anonymity are built into everything from day one.',
+    icon: '<rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path>',
+  },
+  {
+    title: 'Built with campuses',
+    body: 'We work hand in hand with Title IX offices, advocates and students so Cloud IX fits the way each school already works.',
+    icon: '<path d="M3 10 12 4l9 6"></path><path d="M5 10v9h14v-9"></path><path d="M10 19v-5h4v5"></path>',
+  },
+];
+---
+<BaseLayout title="Meet the team" description="Cloud IX is built by a small team of builders, advocates and mentors — founded at Tulane University in New Orleans.">
+  <SkyHero
+    clouds={[
+      { top: 150, width: 300, duration: 95, delay: -40 },
+      { top: 330, width: 190, duration: 75, delay: -10 },
+      { top: 90, width: 130, duration: 120, delay: -85 },
+    ]}
+    shoots={[{ top: 120, left: '58%' }]}
+  >
+    <PageIntro
+      pill="Founded at Tulane University · New Orleans"
+      pad={[72, 230]}
+      gap={24}
+      titleSize="clamp(2.5rem, 5.4vw, 4.6rem)"
+      titleMaxWidth="15ch"
+      leadSize={20}
+      lead="We’re a small team of builders, advocates and mentors who believe every student deserves a private, judgment-free place to find help — and every campus deserves the tools to offer it."
+    >
+      <Fragment slot="title">Built by students, <span class="glowtext hl">for students.</span></Fragment>
+    </PageIntro>
+  </SkyHero>
+
+  <div class="team-page" style={`--avatar-radius:${avatarRadius};--card-flex:${cardFlex}`}>
+    <!-- Founders -->
+    <section aria-label="Founders" class="container founders">
+      {founders.map((f) => (
+        <article class="card founder" aria-labelledby={f.id}>
+          <div class="founder__photo">
+            <svg class="spin founder__ring" style={`animation-delay:${f.spinDelay}s`} viewBox="0 0 260 260" aria-hidden="true">
+              <circle cx="130" cy="130" r="120" fill="none" stroke="#2563A8" stroke-opacity="0.22" stroke-dasharray="3 9"></circle>
+              <circle cx="130" cy="10" r="6" fill="#2563A8"></circle>
+              <circle cx="45" cy="215" r="4" fill="#A9C9EE"></circle>
+            </svg>
+            <div class="tile avatar founder__avatar" aria-hidden="true">
+              {f.initials ?? (
+                <svg width="84" height="84" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
+              )}
+            </div>
+          </div>
+          <span class="eyebrow team-eyebrow">{f.role}</span>
+          <h2 id={f.id} class="founder__name">{f.name}</h2>
+          <p class="founder__bio">{f.bio}</p>
+          <blockquote class="founder__quote">{f.quote}</blockquote>
+          <div class="founder__actions">
+            <Button href={f.linkedin}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={linkedInPath}></path></svg>LinkedIn
+            </Button>
+            <Button href={f.secondary.href} variant="outline">{f.secondary.label}</Button>
+          </div>
+        </article>
+      ))}
+    </section>
+
+    <!-- Core team -->
+    <section aria-labelledby="team-h" class="container block block--team">
+      <Cloud top={40} width={260} duration={110} delay={-30} fill="#D6E6F8" opacity={0.9} />
+      <div class="heading relative">
+        <span class="eyebrow team-eyebrow">The team</span>
+        <h2 id="team-h" class="h2">The people building Cloud IX</h2>
+        <p class="lead">Everything is designed and developed in house, by people who care about getting it right.</p>
+      </div>
+      <div class="team-grid relative">
+        {team.map((m) => (
+          <article class="card member">
+            <div class="tile avatar member__avatar" aria-hidden="true">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
+            </div>
+            <div class="member__head">
+              <h3 class="h3">{m.name}</h3>
+              <p class="role">{m.role}</p>
+            </div>
+            <p class="member__bio">{m.bio}</p>
+            <div class="member__links">
+              <a class="btn icon-btn" href={m.linkedin} aria-label="LinkedIn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={linkedInPath}></path></svg>
+              </a>
+              <a class="btn icon-btn" href={m.email} aria-label="Email">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Meet Sky -->
+    <section aria-labelledby="sky-h" class="container sky-section">
+      <div class="card sky-card">
+        <div class="stars1" style="opacity:0.7" aria-hidden="true"></div>
+        <div class="sky-card__art">
+          <div class="bob sky-card__orb" aria-hidden="true">
+            <svg width="120" height="90" viewBox="0 -3 40 31"><path d="M11 26h20a8 8 0 0 0 1.2-15.9A10 10 0 0 0 13 8.2 9 9 0 0 0 11 26Z" fill="#8DBBF5"></path><circle cx="17" cy="17" r="1.6" fill="#0E2240"></circle><circle cx="25" cy="17" r="1.6" fill="#0E2240"></circle><path d="M18 21q3 2.4 6 0" fill="none" stroke="#0E2240" stroke-width="1.4" stroke-linecap="round"></path></svg>
+          </div>
+        </div>
+        <div class="sky-card__copy">
+          <span class="eyebrow eyebrow--dark">Our AI teammate</span>
+          <h2 id="sky-h" class="h2 on-dark sky-card__title">Meet Sky</h2>
+          <p class="sky-card__body">Sky is the trauma-informed guide inside Cloud IX. Trained on each partner school’s policies alongside local and national resources, Sky answers questions in the moment — privately, without judgment, and always leaving the next step up to the student.</p>
+          <div class="chips">
+            {skyChips.map((c) => <span class="chip">{c}</span>)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Advisors -->
+    <section aria-labelledby="adv-h" class="container block block--adv">
+      <div class="heading">
+        <span class="eyebrow team-eyebrow">Advisors</span>
+        <h2 id="adv-h" class="h2 h2--sm">Guided by people who’ve been there</h2>
+      </div>
+      <div class="advisors">
+        {advisors.map((a) => (
+          <article class="card advisor">
+            <div class="tile avatar advisor__avatar" aria-hidden="true">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>
+            </div>
+            <div class="advisor__copy">
+              <span class="tag">Advisor</span>
+              <h3 class="h3 advisor__name">{a.name}</h3>
+              <p class="role">{a.title}</p>
+              <p class="member__bio">{a.bio}</p>
+              <a class="btn small-link" href={a.linkedin}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={linkedInPath}></path></svg>LinkedIn
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- Mentors -->
+    {showMentors && (
+      <section aria-labelledby="men-h" class="container block block--men">
+        <div class="heading heading--tight">
+          <span class="eyebrow team-eyebrow">Mentors</span>
+          <h2 id="men-h" class="h2 mentors__title">Tulane Innovation Institute mentorship team</h2>
+        </div>
+        <div class="mentors">
+          {mentors.map((m) => (
+            <div class="card mentor">
+              <div class="tile avatar mentor__avatar" aria-hidden="true">{m.initials}</div>
+              <div class="mentor__copy">
+                <span class="mentor__name">{m.name}</span>
+                <span class="mentor__meta">Mentor, Tulane Innovation Institute</span>
+                <span class="mentor__meta">[Title, organization]</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Values -->
+    <section aria-labelledby="val-h" class="container block block--adv">
+      <h2 id="val-h" class="h2 h2--sm">What we stand for</h2>
+      <div class="values">
+        {values.map((v) => (
+          <div class="card value">
+            <div class="tile icon-tile value__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={v.icon}></svg>
+            </div>
+            <h3 class="h3 value__title">{v.title}</h3>
+            <p class="value__body">{v.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Join -->
+    <section id="demo" aria-labelledby="join-h" class="join">
+      <div class="join__card">
+        <div class="stars1" aria-hidden="true"></div>
+        <svg class="join__horizon" viewBox="0 0 1100 640" aria-hidden="true"><ellipse cx="550" cy="640" rx="560" ry="560" fill="#FFFFFF"></ellipse><ellipse cx="550" cy="640" rx="560" ry="560" fill="none" stroke="#A9C9EE" stroke-width="2"></ellipse></svg>
+        <Cloud top={40} width={220} duration={60} />
+        <Cloud top={230} width={150} duration={45} delay={-25} />
+        <h2 id="join-h" class="display join__title">Want to help us <span class="glowtext hl">reach more students?</span></h2>
+        <p class="join__lead">We’re always looking for builders, advocates and campus champions who share our mission.</p>
+        <div class="join__actions">
+          <Button href={external.careers} size="lg">See open roles</Button>
+          <Button href={routes.contact} variant="light" size="lg" class="join__outline">Get in touch</Button>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .team-page { position: relative; }
+  .team-eyebrow { color: var(--link-hover); }
+  .avatar {
+    border-radius: var(--avatar-radius);
+    background: var(--tint);
+    color: var(--link-hover);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .role { margin: 0; color: var(--link); font-weight: 700; font-size: 15px; }
+
+  /* Founders */
+  .founders { position: relative; padding-top: 48px; padding-bottom: 96px; display: flex; flex-wrap: wrap; gap: 24px; }
+  .founder {
+    flex: 1 1 480px; min-width: 0; box-sizing: border-box;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 32px;
+    padding: 48px 40px; display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center;
+  }
+  .founder__photo { position: relative; width: 260px; height: 260px; max-width: 100%; display: flex; align-items: center; justify-content: center; }
+  .founder__ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .founder__avatar { position: relative; width: 200px; height: 200px; font-size: 56px; letter-spacing: -0.02em; }
+  .founder__name {
+    margin: -8px 0 0; font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.9rem, 3vw, 2.5rem); line-height: 1.08; letter-spacing: -0.02em; color: var(--night);
+  }
+  .founder__bio { margin: 0; font-size: 17px; color: var(--ink-2); max-width: 32rem; }
+  .founder__quote {
+    margin: 4px 0 0; padding: 16px 22px; background: var(--page); border-radius: 16px;
+    font-family: var(--font-display); font-size: 19px; line-height: 1.4; color: var(--night); max-width: 32rem;
+  }
+  .founder__actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: auto; padding-top: 6px; }
+
+  /* Generic sections */
+  .block { position: relative; padding-bottom: 96px; display: flex; flex-direction: column; }
+  .block--team { gap: 40px; }
+  .block--adv { gap: 36px; }
+  .block--men { gap: 28px; }
+  .heading { display: flex; flex-direction: column; gap: 12px; max-width: 40rem; }
+  .heading--tight { gap: 10px; }
+
+  /* Team grid */
+  .team-grid { display: flex; flex-wrap: wrap; gap: 24px; }
+  .member {
+    flex: var(--card-flex); min-width: 240px; box-sizing: border-box;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 24px;
+    padding: 28px; display: flex; flex-direction: column; gap: 14px;
+  }
+  .member__avatar { width: 88px; height: 88px; }
+  .member__head { display: flex; flex-direction: column; gap: 2px; }
+  .member__bio { margin: 0; color: var(--ink-2); font-size: 16px; }
+  .member__links { margin-top: auto; display: flex; gap: 10px; }
+  .icon-btn {
+    width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--line-strong);
+    color: var(--link-hover); display: flex; align-items: center; justify-content: center; box-sizing: border-box;
+  }
+
+  /* Meet Sky */
+  .sky-section { position: relative; padding-bottom: 96px; }
+  .sky-card {
+    position: relative; overflow: hidden; background: var(--night); border: 1px solid var(--night-2);
+    border-radius: 32px; padding: 56px 48px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center; color: #FFFFFF;
+  }
+  .sky-card__art { position: relative; flex: 0 1 260px; display: flex; justify-content: center; margin: 0 auto; }
+  .sky-card__orb {
+    width: 200px; height: 200px; border-radius: 50%; background: var(--night-2);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 1px rgba(169, 201, 238, 0.25), 0 0 60px rgba(47, 111, 196, 0.55);
+  }
+  .sky-card__copy { position: relative; flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+  .sky-card__title { line-height: 1.1; }
+  .sky-card__body { margin: 0; font-size: 18px; color: var(--on-dark); }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .chip { padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(169, 201, 238, 0.35); color: #DCE8F7; font-size: 14px; font-weight: 600; }
+
+  /* Advisors */
+  .advisors { display: flex; flex-wrap: wrap; gap: 24px; }
+  .advisor {
+    flex: 1 1 420px; min-width: 0; box-sizing: border-box;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 28px;
+    padding: 36px; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start;
+  }
+  .advisor__avatar { flex: none; width: 128px; height: 128px; }
+  .advisor__copy { flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .advisor__name { font-size: 24px; }
+  .tag { align-self: flex-start; background: var(--tint); color: var(--link-hover); padding: 4px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; }
+  .small-link {
+    align-self: flex-start; margin-top: 4px; color: var(--link-hover); border: 1.5px solid var(--line-strong);
+    padding: 8px 16px; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 14px;
+    display: inline-flex; gap: 8px; align-items: center;
+  }
+
+  /* Mentors */
+  .mentors__title { font-size: clamp(1.5rem, 2.4vw, 1.9rem); line-height: 1.2; }
+  .mentors { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; }
+  .mentor { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 20px; display: flex; gap: 16px; align-items: center; }
+  .mentor__avatar { flex: none; width: 60px; height: 60px; font-size: 20px; }
+  .mentor__copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .mentor__name { font-weight: 700; color: var(--night); }
+  .mentor__meta { font-size: 14px; color: var(--muted); }
+
+  /* Values */
+  .values { display: flex; flex-wrap: wrap; gap: 24px; }
+  .value {
+    flex: 1 1 300px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px;
+    padding: 32px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .value__icon { color: var(--link-hover); }
+  .value__title { font-size: 21px; }
+  .value__body { margin: 0; color: var(--ink-2); }
+
+  /* Join */
+  .join { position: relative; padding: 0 24px 112px; }
+  .join__card {
+    max-width: 1240px; margin: 0 auto; box-sizing: border-box; background: var(--sky); border: 1px solid var(--line-sky);
+    border-radius: 36px; padding: 88px 32px 112px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center;
+    box-shadow: 0 30px 80px rgba(37, 99, 168, 0.18);
+  }
+  .join__horizon { position: absolute; left: 50%; bottom: -560px; width: 1100px; height: 640px; margin-left: -550px; }
+  .join__title { position: relative; font-size: clamp(2.2rem, 4.6vw, 3.6rem); line-height: 1.05; }
+  .join__lead { position: relative; margin: 0; max-width: 34rem; font-size: 19px; color: var(--ink-2); }
+  .join__actions { position: relative; display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+  .join__card :global(.join__outline) { border-color: var(--line-strong); }
+
+  /* Below ~600px the 3-up basis collapses to the 240px min-width; let single cards fill the row. */
+  @media (max-width: 600px) {
+    .member { flex: 1 1 240px; }
+  }
+</style>

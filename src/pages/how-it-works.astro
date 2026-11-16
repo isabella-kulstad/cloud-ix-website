@@ -1,0 +1,491 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkyHero from '../components/SkyHero.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Button from '../components/Button.astro';
+import Cloud from '../components/Cloud.astro';
+import ShootingStar from '../components/ShootingStar.astro';
+import { routes } from '../data/site';
+
+/** The student journey: each step's tab copy and the phone screen it shows. */
+type Bubble = { kind: 'me' | 'sky'; text: string; delay: number };
+type Chip = { kind: 'chip'; label: string; tag: string; delay: number };
+type Message = Bubble | Chip;
+
+const steps: { title: string; body: string; messages?: Message[] }[] = [
+  {
+    title: 'Open Cloud IX',
+    body: 'From your school’s website, a flyer, or a link from an RA. No account to create — just your school email to connect you to your campus’s Sky.',
+  },
+  {
+    title: 'Ask in your own words',
+    body: 'No forms and no right way to say it. Sky listens without judgment.',
+    messages: [
+      { kind: 'me', text: 'I don’t really know what happened was “bad enough” to talk to anyone about.', delay: 0.2 },
+      { kind: 'sky', text: 'Whatever happened, your questions are welcome here. You don’t need to label it to get support. What would help most right now?', delay: 1.2 },
+    ],
+  },
+  {
+    title: 'Understand your options',
+    body: 'Sky explains confidential and reporting resources so you know what each one means.',
+    messages: [
+      { kind: 'me', text: 'If I tell someone at school, does it automatically get reported?', delay: 0.2 },
+      { kind: 'sky', text: 'Not always. Some people on campus are confidential and some have to share reports. Here’s the difference at your school:', delay: 1.2 },
+      { kind: 'chip', label: 'Counseling Center', tag: 'Confidential', delay: 2 },
+      { kind: 'chip', label: 'Title IX Office', tag: 'Reporting', delay: 2.4 },
+    ],
+  },
+  {
+    title: 'Get connected',
+    body: 'Campus offices, local centers and national hotlines, with real contact details.',
+    messages: [
+      { kind: 'sky', text: 'Here are people who can help, whenever you choose:', delay: 0.2 },
+      { kind: 'chip', label: 'Campus Victim Advocate', tag: 'Campus', delay: 0.8 },
+      { kind: 'chip', label: 'Local rape crisis center', tag: 'Local', delay: 1.1 },
+      { kind: 'chip', label: 'National hotline · 24/7', tag: 'National', delay: 1.4 },
+      { kind: 'sky', text: 'Want help figuring out what to say when you call?', delay: 2.2 },
+    ],
+  },
+  {
+    title: 'Decide, at your pace',
+    body: 'Come back any time. Nothing happens unless you choose it.',
+    messages: [
+      { kind: 'me', text: 'I think I need some time before I do anything.', delay: 0.2 },
+      { kind: 'sky', text: 'That’s completely okay. Nothing happens unless you decide it should. I’ll be here whenever you want to pick this back up.', delay: 1.2 },
+    ],
+  },
+];
+
+const layers = [
+  { title: 'Your campus', body: 'Title IX, counseling, advocacy, health services and campus police — mapped from your school’s own policies.', color: '#2563A8' },
+  { title: 'Your community', body: 'Local rape crisis centers, hospitals offering forensic exams, and legal aid near campus.', color: '#6E8FC4' },
+  { title: 'National support', body: '24/7 hotlines and national organizations, available wherever a student is.', color: '#A9C9EE' },
+];
+
+const pipeline = [
+  { title: 'Your message', body: 'Typed on your phone or laptop.', icon: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12Z"></path>' },
+  { title: 'Encrypted', body: 'Locked in the app before it travels anywhere.', icon: '<rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path>' },
+  { title: 'Sky responds', body: 'Answers drawn from your campus’s resources.', icon: '<path d="M11 20h7a4 4 0 0 0 .4-8A6 6 0 0 0 7 11a4.5 4.5 0 0 0 4 9Z"></path>' },
+];
+
+const boundaries = [
+  {
+    title: 'Sky does',
+    kind: 'yes',
+    items: [
+      'Answers questions privately, any hour',
+      'Explains confidential vs. reporting options',
+      'Connects students to real people and services',
+      'Respects every decision a student makes',
+    ],
+  },
+  {
+    title: 'Sky doesn’t',
+    kind: 'no',
+    items: [
+      'Investigate or determine outcomes',
+      'File reports on a student’s behalf',
+      'Sell student data, or use conversations to train AI models',
+      'Replace counselors, advocates or your Title IX office',
+      'Share anything that could identify a student',
+    ],
+  },
+];
+
+const skyCloud = 'M11 26h20a8 8 0 0 0 1.2-15.9A10 10 0 0 0 13 8.2 9 9 0 0 0 11 26Z';
+---
+<BaseLayout title="How it works" description="Walk through what a student experiences in Cloud IX, what happens behind the scenes, and what Sky will — and won’t — do.">
+  <SkyHero
+    clouds={[
+      { top: 120, width: 260, duration: 85, delay: -25 },
+      { top: 360, width: 190, duration: 72, delay: -50 },
+    ]}
+    shoots={[{ top: 140, left: '40%' }]}
+  >
+    <PageIntro
+      pill="How it works"
+      pad={[56, 230]}
+      gap={20}
+      titleSize="clamp(2.5rem, 5.2vw, 4.4rem)"
+      titleMaxWidth="17ch"
+      leadSize={20}
+      lead="Walk through what a student experiences in Cloud IX, what happens behind the scenes, and what Sky will — and won’t — do."
+    >
+      <Fragment slot="title">One private conversation. <span class="glowtext hl">Every next step.</span></Fragment>
+    </PageIntro>
+  </SkyHero>
+
+  <!-- Interactive journey -->
+  <section aria-labelledby="journey-h" class="container journey" data-journey>
+    <div class="heading">
+      <span class="eyebrow eyebrow-deep">The student journey</span>
+      <h2 id="journey-h" class="h2">Follow along, step by step</h2>
+      <p class="lead">Tap a step to see it on the phone<span data-auto-note> — it plays on its own until you do</span>.</p>
+    </div>
+    <div class="journey__body">
+      <div class="journey__steps">
+        <div role="tablist" aria-label="Journey steps" aria-orientation="vertical" class="journey__tablist">
+          {steps.map((s, i) => (
+            <button
+              type="button"
+              role="tab"
+              class="step"
+              id={`step-tab-${i}`}
+              aria-controls="journey-phone"
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              data-step={i}
+              data-state={i === 0 ? 'current' : 'upcoming'}
+            >
+              <span class="step__num">{i + 1}</span>
+              <span class="step__copy">
+                <span class="step__title">{s.title}</span>
+                <span class="step__body">{s.body}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+        <div class="progress" aria-hidden="true"><div class="progress__bar" data-progress style="width: 20%"></div></div>
+      </div>
+
+      <div class="journey__stage">
+        <svg class="spin orbit" viewBox="0 0 540 540" aria-hidden="true"><circle cx="270" cy="270" r="256" fill="none" stroke="#2563A8" stroke-opacity="0.16" stroke-dasharray="3 9"></circle><circle cx="270" cy="14" r="7" fill="#2563A8"></circle><circle cx="60" cy="400" r="4" fill="#A9C9EE"></circle></svg>
+        <div class="phone">
+          <div class="phone__screen" id="journey-phone" role="tabpanel" aria-labelledby="step-tab-0" aria-live="polite" data-phone>
+            <div class="phone__head">
+              <div class="phone__avatar"><svg width="24" height="17" viewBox="0 -3 40 31" aria-hidden="true"><path d={skyCloud} fill="#8DBBF5"></path></svg></div>
+              <div><div class="phone__name">Sky</div><div class="phone__status">Private &amp; encrypted</div></div>
+              <span class="phone__step">Step <span data-step-num>1</span> of 5</span>
+            </div>
+
+            {steps.map((s, i) => (
+              <div class:list={['screen', { 'screen--welcome': !s.messages }]} data-screen={i} hidden={i !== 0}>
+                {s.messages ? (
+                  s.messages.map((m) =>
+                    m.kind === 'chip' ? (
+                      <div class="rise chip" style={`animation-delay: ${m.delay}s`}><span>{m.label}</span><span class="chip__tag">{m.tag}</span></div>
+                    ) : (
+                      <div class:list={['rise', 'bubble', `bubble--${m.kind}`]} style={`animation-delay: ${m.delay}s`}>{m.text}</div>
+                    )
+                  )
+                ) : (
+                  <div class="rise welcome">
+                    <div class="bob welcome__icon"><svg width="60" height="46" viewBox="0 -3 40 31" aria-hidden="true"><path d={skyCloud} fill="#8DBBF5"></path></svg></div>
+                    <span class="welcome__title">Hi, I’m Sky.</span>
+                    <span class="welcome__text">Private, encrypted, and here whenever you’re ready.</span>
+                    <span class="welcome__cta">Continue with school email</span>
+                  </div>
+                )}
+              </div>
+            ))}
+
+            <div class="phone__input">Type a question…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resource layers -->
+  <section aria-labelledby="layers-h" class="container layers">
+    <div class="layers__copy">
+      <span class="eyebrow eyebrow-deep">Behind the scenes</span>
+      <h2 id="layers-h" class="h2">Three layers of support, mapped for every campus</h2>
+      <p class="lead">Before Sky talks to a single student, we map every resource around them with the school’s team — so answers are specific, current and close to home.</p>
+      {layers.map((l) => (
+        <div class="card layer" style={`--dot: ${l.color}`}>
+          <span class="layer__dot"></span>
+          <div class="layer__text"><span class="layer__title">{l.title}</span><span class="text-2">{l.body}</span></div>
+        </div>
+      ))}
+    </div>
+    <div class="layers__visual">
+      <div class="rings">
+        <svg class="spin-rev ring" viewBox="0 0 420 420" aria-hidden="true"><circle cx="210" cy="210" r="200" fill="#A9C9EE" fill-opacity="0.18" stroke="#A9C9EE" stroke-dasharray="4 8"></circle><circle cx="210" cy="10" r="7" fill="#A9C9EE"></circle></svg>
+        <svg class="spin ring" viewBox="0 0 420 420" aria-hidden="true"><circle cx="210" cy="210" r="140" fill="#6E8FC4" fill-opacity="0.16" stroke="#6E8FC4" stroke-dasharray="4 8"></circle><circle cx="350" cy="210" r="6" fill="#6E8FC4"></circle></svg>
+        <svg class="ring" viewBox="0 0 420 420" aria-hidden="true"><circle cx="210" cy="210" r="80" fill="#2563A8" fill-opacity="0.16" stroke="#2563A8"></circle></svg>
+        <div class="bob rings__student"><svg width="44" height="34" viewBox="0 -3 40 31" aria-hidden="true"><path d={skyCloud} fill="#2563A8"></path></svg><span>Student</span></div>
+        <span class="ring-label ring-label--campus">Campus</span>
+        <span class="ring-label ring-label--community">Community</span>
+        <span class="ring-label ring-label--national">National</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy pipeline (night band) -->
+  <section aria-labelledby="pipe-h" class="night-band">
+    <div class="stars1" aria-hidden="true"></div>
+    <ShootingStar top={60} left="75%" delay={4} />
+    <div class="container pipe">
+      <div class="heading heading--wide">
+        <span class="eyebrow eyebrow--dark">Where a message goes</span>
+        <h2 id="pipe-h" class="h2 on-dark">Private at every step</h2>
+        <p class="lead on-dark-lead">Conversations are encrypted from the moment they leave a student’s device. Schools only ever see anonymized, combined insights — never who asked what. [Confirm]</p>
+      </div>
+      <div class="pipe__row">
+        {pipeline.map((p, i) => (
+          <>
+            {i > 0 && (
+              <div class="pulse-arrow pipe__arrow" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+            )}
+            <div class="card pipe__card">
+              <div class="tile pipe__tile"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={p.icon}></svg></div>
+              <span class="pipe__title">{p.title}</span><span class="pipe__body">{p.body}</span>
+            </div>
+          </>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Does / doesn't -->
+  <section aria-labelledby="dd-h" class="container dd">
+    <Cloud top={40} width={240} duration={100} delay={-30} fill="#D6E6F8" opacity={0.9} />
+    <div class="heading relative">
+      <span class="eyebrow eyebrow-deep">Clear boundaries</span>
+      <h2 id="dd-h" class="h2">What Sky does — and doesn’t do</h2>
+    </div>
+    <div class="dd__row">
+      {boundaries.map((b) => (
+        <div class="card panel dd__card">
+          <span class="h3">{b.title}</span>
+          <ul class="dd__list">
+            {b.items.map((item) => (
+              <li>
+                <span class:list={['dd__mark', `dd__mark--${b.kind}`]}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    {b.kind === 'yes' ? <path d="m5 12 5 5L20 7"></path> : <path d="M18 6 6 18M6 6l12 12"></path>}
+                  </svg>
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Two paths CTA -->
+  <section aria-label="Next steps" class="container paths">
+    <div class="card path path--sky">
+      <Cloud top={20} width={170} duration={50} />
+      <span class="eyebrow eyebrow-deep relative">For campuses</span>
+      <h2 class="path__title">Bring this to your students.</h2>
+      <p class="path__text">See how setup works and join our founding pilot campuses.</p>
+      <div class="path__actions">
+        <Button href={routes.universities} size="lg">For universities</Button>
+        <Button href={routes.bookDemo} variant="outline-white" size="lg">Book a demo</Button>
+      </div>
+    </div>
+    <div class="card path path--night">
+      <div class="stars1" aria-hidden="true"></div>
+      <span class="eyebrow eyebrow--dark relative">Still curious?</span>
+      <h2 class="path__title on-dark">Get your questions answered.</h2>
+      <p class="path__text path__text--dark">Privacy, setup, who we are — it’s all in the FAQ.</p>
+      <div class="path__actions">
+        <Button href={routes.faq} variant="light" size="lg">Read the FAQ</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .eyebrow-deep { color: var(--link-hover); }
+  .heading { display: flex; flex-direction: column; gap: 12px; max-width: 40rem; }
+  .heading--wide { max-width: 42rem; }
+  .on-dark-lead { color: var(--on-dark); }
+
+  /* ---------- Journey ---------- */
+  .journey { position: relative; padding-top: 32px; padding-bottom: 104px; display: flex; flex-direction: column; gap: 36px; }
+  .journey__body { display: flex; flex-wrap: wrap; gap: 48px; align-items: center; }
+  .journey__steps { flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+  .journey__tablist { display: flex; flex-direction: column; gap: 12px; }
+
+  .step {
+    display: flex; gap: 16px; align-items: flex-start; width: 100%;
+    padding: 18px 20px; border-radius: 20px; text-align: left;
+    font: inherit; color: inherit; cursor: pointer;
+    background: transparent; border: 2px solid transparent;
+    transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease;
+  }
+  .step[aria-selected='true'] { background: var(--surface); border-color: var(--accent); box-shadow: 0 14px 34px rgba(37, 99, 168, 0.18); }
+  .step__num {
+    flex: none; width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-weight: 700;
+    background: var(--tint); color: #174A82;
+  }
+  .step[data-state='done'] .step__num { background: var(--line-strong); color: var(--night); }
+  .step[data-state='current'] .step__num { background: var(--accent); color: #FFFFFF; }
+  .step__copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .step__title { font-family: var(--font-display); font-weight: 600; font-size: 19px; color: var(--night); }
+  .step__body { color: var(--ink-2); font-size: 15px; }
+
+  .progress { height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; margin-top: 6px; }
+  .progress__bar { height: 100%; border-radius: 4px; background: var(--accent); transition: width .5s ease; }
+
+  .journey__stage { flex: 1 1 340px; display: flex; justify-content: center; align-items: center; position: relative; min-height: 620px; }
+  .orbit { position: absolute; top: 50%; left: 50%; width: 540px; height: 540px; margin: -270px 0 0 -270px; pointer-events: none; }
+  .phone {
+    position: relative; width: 320px; max-width: 100%; box-sizing: border-box;
+    background: var(--night-2); border-radius: 44px; padding: 12px;
+    box-shadow: 0 0 0 1px rgba(169, 201, 238, 0.25), 0 40px 90px rgba(47, 111, 196, 0.4);
+  }
+  .phone__screen {
+    background: var(--night-3); border-radius: 34px; padding: 22px 18px 18px;
+    display: flex; flex-direction: column; gap: 12px; height: 580px; box-sizing: border-box;
+  }
+  .phone__head { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid rgba(169, 201, 238, 0.14); }
+  .phone__avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--night-2); display: flex; align-items: center; justify-content: center; }
+  .phone__name { font-weight: 700; color: #FFFFFF; font-size: 15px; }
+  .phone__status { font-size: 12px; color: var(--on-dark-muted); }
+  .phone__step { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--sky-glow); }
+  .screen { display: flex; flex-direction: column; gap: 12px; }
+  .screen[hidden] { display: none; }
+  .screen--welcome { margin: auto 0; }
+  .welcome { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+  .welcome__icon { width: 96px; height: 96px; border-radius: 50%; background: var(--night-2); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 40px rgba(47, 111, 196, 0.5); }
+  .welcome__title { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: #FFFFFF; }
+  .welcome__text { font-size: 14px; color: var(--on-dark); }
+  .welcome__cta { margin-top: 6px; padding: 10px 20px; border-radius: 999px; background: var(--accent); color: #FFFFFF; font-weight: 700; font-size: 14px; }
+  .bubble { padding: 12px 14px; font-size: 14px; line-height: 1.45; max-width: 86%; }
+  .bubble--me { align-self: flex-end; background: var(--accent); color: #FFFFFF; border-radius: 18px 18px 6px 18px; }
+  .bubble--sky { align-self: flex-start; background: var(--night-2); color: #E6EEF9; border-radius: 18px 18px 18px 6px; }
+  .chip {
+    display: flex; justify-content: space-between; gap: 8px;
+    border: 1.5px solid rgba(141, 187, 245, 0.4); border-radius: 12px;
+    padding: 10px 12px; font-size: 13px; color: #FFFFFF; font-weight: 600;
+  }
+  .chip__tag { color: var(--sky-glow); font-weight: 700; }
+  .phone__input { margin-top: auto; border: 1.5px solid rgba(169, 201, 238, 0.18); border-radius: 999px; padding: 12px 16px; font-size: 13px; color: var(--on-dark-muted); }
+
+  /* ---------- Layers ---------- */
+  .layers { position: relative; padding-bottom: 104px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center; }
+  .layers__copy { flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+  .layer {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
+    padding: 22px 24px; display: flex; gap: 16px; align-items: flex-start;
+  }
+  .layer__dot {
+    flex: none; width: 16px; height: 16px; margin-top: 6px; border-radius: 50%;
+    background: var(--dot); box-shadow: 0 0 0 6px color-mix(in srgb, var(--dot) 13%, transparent);
+  }
+  .layer__text { display: flex; flex-direction: column; gap: 4px; }
+  .layer__title { font-family: var(--font-display); font-weight: 600; font-size: 20px; color: var(--night); }
+  .layers__visual { flex: 1 1 380px; min-width: 0; display: flex; justify-content: center; }
+  .rings { position: relative; width: 420px; max-width: 100%; aspect-ratio: 1 / 1; }
+  .ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .rings__student {
+    position: absolute; top: 50%; left: 50%; width: 110px; height: 110px; margin: -55px 0 0 -55px;
+    border-radius: 50%; background: var(--surface); box-shadow: 0 12px 30px rgba(37, 99, 168, 0.25);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  }
+  .rings__student span { font-size: 12px; font-weight: 700; color: var(--night); }
+  .ring-label { position: absolute; left: 50%; font-size: 13px; font-weight: 700; background: var(--surface); padding: 3px 10px; border-radius: 999px; }
+  .ring-label--campus { top: 50%; transform: translate(-50%, -112px); color: #174A82; }
+  .ring-label--community { top: 50%; transform: translate(-50%, -172px); color: var(--ink-2); }
+  .ring-label--national { bottom: 10px; transform: translateX(-50%); color: var(--muted); }
+
+  /* ---------- Pipeline ---------- */
+  .pipe { position: relative; padding-top: 96px; padding-bottom: 96px; display: flex; flex-direction: column; gap: 36px; }
+  .pipe__row { display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch; }
+  .pipe__card {
+    flex: 1 1 200px; position: relative; display: flex; flex-direction: column; gap: 10px; padding: 24px;
+    background: rgba(27, 47, 94, 0.85); border: 1px solid rgba(169, 201, 238, 0.18); border-radius: 22px;
+  }
+  .pipe__tile { width: 52px; height: 52px; border-radius: 16px; background: var(--night-2); color: var(--sky-glow); display: flex; align-items: center; justify-content: center; }
+  .pipe__title { font-family: var(--font-display); font-weight: 600; font-size: 19px; color: #FFFFFF; }
+  .pipe__body { color: var(--on-dark); font-size: 15px; }
+  .pipe__arrow { flex: none; align-self: center; color: var(--sky-glow); }
+
+  /* ---------- Does / doesn't ---------- */
+  .dd { position: relative; padding-top: 104px; padding-bottom: 104px; display: flex; flex-direction: column; gap: 36px; }
+  .dd__row { position: relative; display: flex; flex-wrap: wrap; gap: 24px; }
+  .dd__card { flex: 1 1 380px; min-width: 0; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 18px; }
+  .dd__list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; color: var(--ink); font-size: 17px; }
+  .dd__list li { display: flex; gap: 12px; align-items: flex-start; }
+  .dd__mark { flex: none; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .dd__mark--yes { background: var(--tint); color: var(--link); }
+  .dd__mark--no { background: #F1F3F7; color: var(--muted); }
+
+  /* ---------- Two paths ---------- */
+  .paths { position: relative; padding-bottom: 112px; display: flex; flex-wrap: wrap; gap: 24px; }
+  .path {
+    flex: 1 1 420px; min-width: 0; position: relative; overflow: hidden; box-sizing: border-box;
+    border-radius: 32px; padding: 48px 40px; display: flex; flex-direction: column; gap: 14px;
+  }
+  .path--sky { background: var(--sky); border: 1px solid var(--line-sky); }
+  .path--night { background: var(--night); border: 1px solid var(--night-2); }
+  .path__title {
+    position: relative; margin: 0; font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.15; color: var(--night);
+  }
+  .path__title.on-dark { color: #FFFFFF; }
+  .path__text { position: relative; margin: 0; color: var(--ink-2); }
+  .path__text--dark { color: var(--on-dark); }
+  .path__actions { position: relative; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+
+  @media (max-width: 520px) {
+    .path { padding: 40px 24px; }
+    .dd__card { padding: 28px 24px; }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-journey]');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const screens = Array.from(root.querySelectorAll<HTMLElement>('[data-screen]'));
+    const panel = root.querySelector<HTMLElement>('[data-phone]');
+    const stepNum = root.querySelector<HTMLElement>('[data-step-num]');
+    const progress = root.querySelector<HTMLElement>('[data-progress]');
+    const autoNote = root.querySelector<HTMLElement>('[data-auto-note]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let step = 0;
+    let timer: number | undefined;
+
+    const show = (i: number) => {
+      step = i;
+      tabs.forEach((tab, t) => {
+        const on = t === i;
+        tab.setAttribute('aria-selected', String(on));
+        tab.tabIndex = on ? 0 : -1;
+        tab.dataset.state = on ? 'current' : t < i ? 'done' : 'upcoming';
+      });
+      screens.forEach((s, t) => { s.hidden = t !== i; });
+      panel?.setAttribute('aria-labelledby', `step-tab-${i}`);
+      if (stepNum) stepNum.textContent = String(i + 1);
+      if (progress) progress.style.width = `${(i + 1) * 20}%`;
+    };
+
+    const stopAuto = () => {
+      window.clearInterval(timer);
+      timer = undefined;
+      autoNote?.remove();
+    };
+
+    // Plays on its own (every 5.5s) until the visitor picks a step; never autoplays with reduced motion.
+    if (reduceMotion.matches) {
+      autoNote?.remove();
+    } else {
+      timer = window.setInterval(() => show((step + 1) % tabs.length), 5500);
+    }
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => { stopAuto(); show(i); });
+      tab.addEventListener('keydown', (e) => {
+        const keys: Record<string, number> = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
+        let next: number | undefined;
+        if (e.key in keys) next = (i + keys[e.key] + tabs.length) % tabs.length;
+        else if (e.key === 'Home') next = 0;
+        else if (e.key === 'End') next = tabs.length - 1;
+        if (next === undefined) return;
+        e.preventDefault();
+        stopAuto();
+        show(next);
+        tabs[next].focus();
+      });
+    });
+  }
+</script>
