@@ -1,0 +1,20 @@
+---
+/** Cloud IX wordmark + sun/cloud mark. */
+interface Props {
+  size?: 'md' | 'sm';
+}
+const { size = 'md' } = Astro.props;
+const dims = size === 'md' ? { font: 24, w: 52, h: 29 } : { font: 22, w: 46, h: 26 };
+---
+<span class="logo-mark">
+  <span class="logo-word" style={`font-size:${dims.font}px`}>Cloud IX</span>
+  <svg width={dims.w} height={dims.h} viewBox="2.5 9 47.5 27" aria-hidden="true">
+    <circle cx="18" cy="17" r="7.5" fill="#F5CFA0"></circle>
+    <g fill="#7AA7D9"><circle cx="32.5" cy="21.5" r="7.5"></circle><circle cx="42" cy="28.5" r="7"></circle><rect x="32.5" y="24" width="9.5" height="11.5"></rect></g>
+    <g fill="#F0F0F0" style="filter: drop-shadow(0 1px 1.5px rgba(14,34,64,0.22))"><circle cx="10" cy="29" r="6.5"></circle><circle cx="17.5" cy="23.5" r="5.5"></circle><circle cx="26.5" cy="23" r="7.8"></circle><circle cx="35" cy="29" r="6.5"></circle><rect x="10" y="24" width="25" height="11.5"></rect></g>
+  </svg>
+</span>
+<style>
+  .logo-mark { display: inline-flex; align-items: center; gap: 6px; color: var(--night); }
+  .logo-word { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; }
+</style>

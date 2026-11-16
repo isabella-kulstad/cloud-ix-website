@@ -1,0 +1,43 @@
+---
+import Logo from './Logo.astro';
+import { footerNav } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <Logo size="sm" />
+        <p class="site-footer__tagline">Your campus. <span class="hl">Your questions, answered.</span></p>
+        <p class="site-footer__sub">Building safer, more supportive campuses and communities.</p>
+      </div>
+      <div class="site-footer__cols">
+        {footerNav.map((col) => (
+          <div class="site-footer__col">
+            <span class="site-footer__heading">{col.title}</span>
+            {col.links.map((l) => <a class="navlink" href={l.href}>{l.label}</a>)}
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p>Cloud IX does not investigate or determine outcomes; we support students and meet them where they are. Cloud IX is not an emergency service — if you are in danger, call 911.</p>
+      <p>© {year} Cloud IX on Campus Inc.</p>
+    </div>
+  </div>
+</footer>
+<style>
+  .site-footer { position: relative; background: var(--surface); border-top: 1px solid var(--line); }
+  .site-footer__inner { padding-top: 64px; padding-bottom: 32px; display: flex; flex-direction: column; gap: 40px; }
+  .site-footer__top { display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between; }
+  .site-footer__brand { flex: 1 1 280px; display: flex; flex-direction: column; gap: 14px; max-width: 360px; }
+  .site-footer__tagline { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: 20px; line-height: 1.25; letter-spacing: -0.01em; color: var(--night); }
+  .site-footer__sub { margin: 0; color: var(--muted); font-size: 15px; }
+  .site-footer__cols { display: flex; flex-wrap: wrap; gap: 56px; }
+  .site-footer__col { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; font-size: 15px; }
+  .site-footer__col a { color: var(--ink-2); text-decoration: none; }
+  .site-footer__heading { font-weight: 700; color: var(--night); }
+  .site-footer__bottom { border-top: 1px solid var(--line); padding-top: 24px; display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between; font-size: 14px; color: var(--muted); }
+  .site-footer__bottom p { margin: 0; }
+  .site-footer__bottom p:first-child { max-width: 46rem; }
+</style>

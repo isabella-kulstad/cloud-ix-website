@@ -1,0 +1,49 @@
+---
+/**
+ * Standard hero copy inside <SkyHero>: optional pill, an <h1> (use
+ * <span class="glowtext hl"> for the highlighted words), a lead paragraph
+ * and optional actions.
+ */
+interface Props {
+  pill?: string;
+  lead?: string;
+  align?: 'center' | 'start';
+  /** top / bottom padding in px (bottom leaves room for the cloud bank) */
+  pad?: [number, number];
+  gap?: number;
+  titleSize?: string;
+  titleMaxWidth?: string;
+  leadSize?: number;
+  leadMaxWidth?: string;
+}
+const {
+  pill,
+  lead,
+  align = 'center',
+  pad = [48, 220],
+  gap = 18,
+  titleSize = 'clamp(2.3rem, 4.6vw, 3.8rem)',
+  titleMaxWidth,
+  leadSize = 19,
+  leadMaxWidth = '38rem',
+} = Astro.props;
+---
+<div
+  class:list={['container', 'page-intro', `page-intro--${align}`]}
+  style={`padding-top:${pad[0]}px;padding-bottom:${pad[1]}px;gap:${gap}px`}
+>
+  {pill && <span class="pill rise">{pill}</span>}
+  <h1 class="display rise" style={`font-size:${titleSize};animation-delay:${pill ? '.1s' : '0s'}${titleMaxWidth ? `;max-width:${titleMaxWidth}` : ''}`}><slot name="title" /></h1>
+  {lead && <p class="rise page-intro__lead" style={`font-size:${leadSize}px;max-width:${leadMaxWidth};animation-delay:${pill ? '.2s' : '.1s'}`}>{lead}</p>}
+  {Astro.slots.has('actions') && <div class="rise page-intro__actions" style="animation-delay:.3s"><slot name="actions" /></div>}
+  <slot />
+</div>
+<style>
+  .page-intro { position: relative; z-index: 1; display: flex; flex-direction: column; }
+  .page-intro--center { align-items: center; text-align: center; }
+  .page-intro--center .pill { align-self: center; }
+  .page-intro h1 { line-height: 1.05; }
+  .page-intro__lead { margin: 0; color: var(--ink-2); }
+  .page-intro__actions { display: flex; flex-wrap: wrap; gap: 14px; }
+  .page-intro--center .page-intro__actions { justify-content: center; }
+</style>

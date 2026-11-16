@@ -1,0 +1,35 @@
+---
+/**
+ * The light-sky header band used at the top of every page: stars, shooting
+ * stars, drifting clouds, the main nav and a rolling cloud bank at the bottom.
+ * Page content goes in the default slot; the slot sits above the decoration.
+ */
+import Cloud from './Cloud.astro';
+import ShootingStar from './ShootingStar.astro';
+import CloudBank from './CloudBank.astro';
+import SiteNav from './SiteNav.astro';
+
+interface Props {
+  clouds?: { top: number; width: number; duration: number; delay?: number }[];
+  shoots?: { top: number; left: string; delay?: number }[];
+}
+const {
+  clouds = [
+    { top: 140, width: 280, duration: 90, delay: -30 },
+    { top: 300, width: 160, duration: 65, delay: -45 },
+  ],
+  shoots = [{ top: 100, left: '60%' }],
+} = Astro.props;
+---
+<section id="top" class="sky-hero">
+  <div class="stars1" aria-hidden="true"></div>
+  {shoots.map((s) => <ShootingStar {...s} />)}
+  <slot name="decor" />
+  {clouds.map((c) => <Cloud {...c} />)}
+  <SiteNav />
+  <CloudBank />
+  <slot />
+</section>
+<style>
+  .sky-hero { position: relative; overflow: hidden; background: var(--sky); }
+</style>

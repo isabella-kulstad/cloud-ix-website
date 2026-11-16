@@ -1,0 +1,21 @@
+---
+/** Eyebrow label + section <h2>. Use `dark` on night bands. */
+interface Props {
+  eyebrow?: string;
+  id?: string;
+  dark?: boolean;
+  size?: 'md' | 'sm';
+  align?: 'start' | 'center';
+  maxWidth?: string;
+}
+const { eyebrow, id, dark = false, size = 'md', align = 'start', maxWidth = '40rem' } = Astro.props;
+---
+<div class:list={['section-heading', `section-heading--${align}`]} style={`max-width:${maxWidth}`}>
+  {eyebrow && <span class:list={['eyebrow', { 'eyebrow--dark': dark }]}>{eyebrow}</span>}
+  <h2 id={id} class:list={['h2', { 'h2--sm': size === 'sm', 'on-dark': dark }]}><slot /></h2>
+  <slot name="after" />
+</div>
+<style>
+  .section-heading { display: flex; flex-direction: column; gap: 12px; }
+  .section-heading--center { align-items: center; text-align: center; margin-left: auto; margin-right: auto; }
+</style>

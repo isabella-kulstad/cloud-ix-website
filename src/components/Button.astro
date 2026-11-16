@@ -1,0 +1,42 @@
+---
+/**
+ * Pill link-button used across the site.
+ * variant: primary (accent fill) | outline (on light) | light (white fill, on dark) | outline-dark (on dark)
+ * size: sm (nav) | md | lg (hero CTAs)
+ */
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'a'> {
+  href: string;
+  variant?: 'primary' | 'outline' | 'light' | 'outline-dark';
+  size?: 'sm' | 'md' | 'lg';
+}
+const { href, variant = 'primary', size = 'md', class: className, ...rest } = Astro.props;
+---
+<a href={href} class:list={['btn', 'button', `button--${variant}`, `button--${size}`, className]} {...rest}><slot /></a>
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    border: 1.5px solid transparent;
+    box-sizing: border-box;
+    min-height: 44px;
+  }
+  .button--sm { padding: 8.5px 20px; font-weight: 600; font-size: 16px; }
+  .button--md { padding: 12.5px 24px; font-size: 17px; }
+  .button--lg { padding: 14.5px 28px; font-size: 17px; }
+
+  .button--primary { background: var(--accent); color: #FFFFFF; }
+  .button--primary:hover { color: #FFFFFF; }
+  .button--outline { color: var(--night); border-color: var(--line-strong); }
+  .button--outline:hover { color: var(--night); }
+  .button--light { background: #FFFFFF; color: var(--night); }
+  .button--light:hover { color: var(--night); }
+  .button--outline-dark { color: #FFFFFF; border-color: rgba(169, 201, 238, 0.4); }
+  .button--outline-dark:hover { color: #FFFFFF; }
+</style>

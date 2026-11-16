@@ -1,0 +1,31 @@
+---
+import Logo from './Logo.astro';
+import Button from './Button.astro';
+import { mainNav, routes } from '../data/site';
+
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+<header class="site-header">
+  <nav aria-label="Main" class="container site-nav">
+    <a href={routes.home} class="site-nav__brand" aria-label="Cloud IX home"><Logo /></a>
+    <div class="site-nav__links">
+      {mainNav.map((item) => (
+        <a class="navlink" href={item.href} aria-current={current === item.href ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </div>
+    <div class="site-nav__actions">
+      <Button href={routes.contact} variant="outline" size="sm">Contact</Button>
+      <Button href={routes.bookDemo} size="sm">Book a demo</Button>
+    </div>
+  </nav>
+</header>
+<style>
+  .site-header { position: relative; z-index: 2; }
+  .site-nav { padding-top: 22px; padding-bottom: 22px; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: space-between; }
+  .site-nav__brand { text-decoration: none; display: inline-flex; }
+  .site-nav__links { display: flex; flex-wrap: wrap; gap: 8px 30px; align-items: center; font-weight: 500; font-size: 16px; }
+  .site-nav__links a { color: var(--ink-2); text-decoration: none; }
+  .site-nav__links a[aria-current='page'] { color: var(--night); }
+  .site-nav__links a[aria-current='page']::after { transform: scaleX(1); }
+  .site-nav__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+</style>

@@ -1,0 +1,9 @@
+---
+interface Props {
+  top: number;
+  left: string;
+  delay?: number;
+}
+const { top, left, delay } = Astro.props;
+---
+<div class="shoot" style={`top:${top}px;left:${left}${delay ? `;animation-delay:${delay}s` : ''}`} aria-hidden="true"></div>

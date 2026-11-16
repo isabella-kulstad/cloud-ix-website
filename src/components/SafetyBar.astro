@@ -1,0 +1,14 @@
+---
+import { hotline } from '../data/site';
+---
+<div class="safety-bar">
+  <div class="container safety-bar__inner">
+    <p>In immediate danger? Call 911. 24/7 National Sexual Assault Hotline: <a href={hotline.tel}>{hotline.label}</a></p>
+  </div>
+</div>
+<style>
+  .safety-bar { background: var(--night); color: #FFFFFF; font-size: 14px; position: relative; z-index: 2; border-bottom: 1px solid rgba(169, 201, 238, 0.12); }
+  .safety-bar__inner { padding-top: 10px; padding-bottom: 10px; }
+  p { margin: 0; color: var(--on-dark); }
+  a { color: #FFFFFF; font-weight: 700; }
+</style>

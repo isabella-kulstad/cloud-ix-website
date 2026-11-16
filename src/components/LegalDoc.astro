@@ -1,0 +1,36 @@
+---
+/**
+ * White document card that overlaps the bottom of a <SkyHero>, used by the
+ * legal pages. Put prose (h3, p, ul, tables) in the default slot.
+ */
+interface Props {
+  title: string;
+  updated?: string;
+}
+const { title, updated } = Astro.props;
+---
+<section class="legal">
+  <article aria-labelledby="doc-title" class="legal__doc">
+    <h2 id="doc-title" class="h2 legal__title">{title}</h2>
+    {updated && <p class="legal__updated">Last updated: {updated}</p>}
+    <slot />
+  </article>
+</section>
+<style>
+  .legal { position: relative; z-index: 2; max-width: 1040px; margin: -150px auto 0; padding: 0 var(--gutter) 104px; }
+  .legal__doc {
+    box-sizing: border-box; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 32px;
+    padding: 48px 52px; box-shadow: 0 30px 80px rgba(37, 99, 168, 0.14); display: flex; flex-direction: column; gap: 18px;
+  }
+  @media (max-width: 640px) { .legal__doc { padding: 32px 22px; border-radius: 24px; } }
+  .legal__title { font-size: clamp(1.7rem, 2.8vw, 2.2rem); line-height: 1.15; }
+  .legal__updated { margin: 0; font-size: 15px; color: var(--muted); font-weight: 600; }
+  .legal__doc :global(h3) { margin: 12px 0 0; font-family: var(--font-display); font-weight: 600; font-size: 22px; color: var(--night); }
+  .legal__doc :global(p), .legal__doc :global(li) { color: var(--ink-2); font-size: 17px; line-height: 1.7; }
+  .legal__doc :global(p) { margin: 0; }
+  .legal__doc :global(.table-wrap) { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; }
+  .legal__doc :global(table) { width: 100%; min-width: 640px; border-collapse: collapse; }
+  .legal__doc :global(th) { text-align: left; padding: 12px 16px; font-size: 14px; font-weight: 700; color: var(--night); background: var(--tint); }
+  .legal__doc :global(td) { padding: 14px 16px; border-top: 1px solid var(--line); vertical-align: top; font-size: 15px; color: var(--ink-2); }
+  .legal__doc :global(td:first-child) { color: var(--night); font-weight: 700; }
+</style>

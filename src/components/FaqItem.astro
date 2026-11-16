@@ -1,0 +1,33 @@
+---
+/**
+ * One expandable question (native <details>, so it works without JS).
+ * Answer copy goes in the default slot (wrap in <p> or plain text).
+ */
+interface Props {
+  question: string;
+  open?: boolean;
+}
+const { question, open = false } = Astro.props;
+---
+<details class="card panel faq-item" open={open}>
+  <summary>
+    {question}
+    <span class="faq-item__icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+  </summary>
+  <div class="faq-item__answer rise"><slot /></div>
+</details>
+<style>
+  .faq-item { border-radius: 20px; overflow: hidden; }
+  summary {
+    list-style: none; cursor: pointer; display: flex; gap: 16px; align-items: center; justify-content: space-between;
+    padding: 22px 26px; color: var(--night); font-family: var(--font-display); font-weight: 600; font-size: 19px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .faq-item__icon {
+    flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--tint); color: #174A82;
+    display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease;
+  }
+  .faq-item[open] .faq-item__icon { transform: rotate(45deg); }
+  .faq-item__answer { padding: 0 26px 24px; color: var(--ink-2); font-size: 17px; max-width: 48rem; }
+  .faq-item__answer :global(p) { margin: 0; }
+</style>
