@@ -16,7 +16,7 @@ npm run build    # static output in dist/
 - `src/components/` – shared building blocks:
   - `SkyHero` + `PageIntro` – the light-sky header band (nav, stars, drifting clouds, cloud bank) and standard hero copy.
   - `Button` – pill buttons (`primary`, `outline`, `light`, `outline-dark`; `sm`/`md`/`lg`).
-  - `SectionHeading`, `FaqItem`, `LegalDoc`, `Cloud`, `ShootingStar`, `Logo`.
+  - `SectionHeading`, `FaqItem`, `LegalDocWithToc`, `Cloud`, `ShootingStar`, `Logo`.
 - `src/data/site.ts` – routes, nav and footer links. Link to pages via `routes.*`.
 - `src/styles/global.css` – design tokens (CSS variables), shared classes and the animation utilities.
 - `src/pages/` – one file per route.

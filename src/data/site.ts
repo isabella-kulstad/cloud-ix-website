@@ -11,7 +11,6 @@ export const routes = {
   bookDemo: '/book-demo',
   privacy: '/privacy',
   terms: '/terms',
-  subprocessors: '/subprocessors',
 } as const;
 
 export const external = {
@@ -43,7 +42,6 @@ export const footerNav = [
     title: 'Company',
     links: [
       { label: 'About', href: external.about },
-      { label: 'Meet the team', href: routes.team },
       { label: 'Partners', href: routes.partners },
       { label: 'Careers', href: external.careers },
       { label: 'Blog', href: external.blog },
@@ -54,7 +52,6 @@ export const footerNav = [
     links: [
       { label: 'Privacy policy', href: routes.privacy },
       { label: 'Terms', href: routes.terms },
-      { label: 'Subprocessors', href: routes.subprocessors },
       { label: 'Contact', href: routes.contact },
     ],
   },
