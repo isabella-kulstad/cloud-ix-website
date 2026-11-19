@@ -10,8 +10,10 @@ import { routes, hotline } from '../data/site';
 interface Faq {
   q: string;
   a: string;
-  /** optional bold link appended to the answer */
+  /** optional link appended to the answer (bold unless `after` is set) */
   link?: { label: string; href: string };
+  /** text after an inline link, e.g. the end of the sentence */
+  after?: string;
 }
 
 const groups: { id: string; title: string; items: Faq[] }[] = [
@@ -20,9 +22,9 @@ const groups: { id: string; title: string; items: Faq[] }[] = [
     title: 'For students',
     items: [
       { q: 'What is Cloud IX?', a: 'Cloud IX is a private chat that helps students understand their options after sexual violence and find the right campus, local and national resources — at their own pace.' },
-      { q: 'Who is Sky?', a: 'Sky is the trauma-informed AI guide inside Cloud IX. Sky is trained on your school’s policies and resources, answers questions without judgment, and always leaves the next step up to you.' },
-      { q: 'Is what I share confidential?', a: 'Yes. Conversations are end-to-end encrypted, and Cloud IX doesn’t make reports on your behalf — you decide whether and how to reach out to anyone. [Confirm exact wording]' },
-      { q: 'Will my school know I used Cloud IX?', a: 'Your school sees only anonymized, combined insights about the kinds of questions students ask — never who asked them. [Confirm what the school view includes]' },
+      { q: 'Who is Sky?', a: 'Sky is the trauma-informed guide inside Cloud IX. Sky is trained on your school’s policies and resources, answers questions without judgment, and always leaves the next step up to you.' },
+      { q: 'Is what I share confidential?', a: 'Yes. Conversations are encrypted in transit and at rest, and Cloud IX doesn’t make reports on your behalf — you decide whether and how to reach out to anyone.' },
+      { q: 'Will my school know I used Cloud IX?', a: 'Your school sees only anonymized, combined insights about the kinds of questions students ask — never who asked them.' },
       { q: 'Does Cloud IX replace counselors or the Title IX office?', a: 'No. Cloud IX is a first step, not a replacement. It explains what each office does and helps you connect with the people who can support you.' },
       { q: 'What if I’m in danger right now?', a: 'Call 911. You can also call the 24/7 National Sexual Assault Hotline at 800-656-4673. Cloud IX is not an emergency service.' },
       { q: 'Is Cloud IX available at my school?', a: 'We’re currently working with founding pilot campuses. [List pilot schools when ready.] If you’d like Cloud IX at your school, share this site with your Title IX office or student government.' },
@@ -35,7 +37,7 @@ const groups: { id: string; title: string; items: Faq[] }[] = [
       { q: 'How does Cloud IX fit with our existing protocols?', a: 'We map your policies, offices and reporting options with your team, so Sky routes students to the people already doing this work on your campus.' },
       { q: 'What does implementation involve?', a: 'A discovery call, a resource-mapping session, tailoring and testing Sky with your team, and launch support for RAs, orientation and your website.', link: { label: 'See the full process →', href: routes.universities } },
       { q: 'How do we become a pilot campus?', a: 'We’re enrolling a small group of founding pilot campuses who get hands-on onboarding and a direct line to our founders.', link: { label: 'Get in touch →', href: routes.contact } },
-      { q: 'What does Cloud IX cost?', a: '[Describe pilot pricing or how pricing is set — e.g. by enrollment.]' },
+      { q: 'What does Cloud IX cost?', a: 'Pricing depends on a variety of factors - enrollment, contract length, feature offering, and more. All can be discussed with our founding team.', link: { label: 'Get in touch →', href: routes.contact } },
     ],
   },
   {
@@ -43,8 +45,9 @@ const groups: { id: string; title: string; items: Faq[] }[] = [
     title: 'Privacy & security',
     items: [
       { q: 'Is Cloud IX HECVAT compliant?', a: 'Yes. Our HECVAT, privacy policy and statement of work are ready for your IT and procurement teams.', link: { label: 'Request documents →', href: routes.hecvat } },
-      { q: 'How is data protected?', a: 'Interaction data is encrypted in the app and on our servers, and every part of the platform is built and maintained by our own team. [Add hosting and data-retention details]' },
-      { q: 'Is Cloud IX a mandated reporter?', a: '[Confirm with counsel. For example: Cloud IX is a technology platform, not a school employee, and does not file reports. Students choose whether to contact a reporting office.]' },
+      { q: 'How is data protected?', a: 'We encrypt data in transit (TLS 1.2 or higher) and at rest, and host the platform on Google Cloud Platform in the United States. Staff access is limited to those who need it and is logged, and Sky conversations are deleted after 30 days unless your institution sets a different period. Every part of the platform is built and maintained by our own team. Details are in our', link: { label: 'Privacy Notice', href: routes.privacy }, after: '.' },
+      { q: 'Do you sell student data or use it to train AI?', a: 'No. Cloud IX never sells personal information or shares it for advertising, and we don’t use student conversations to train AI models. Our', link: { label: 'Privacy Notice', href: routes.privacy }, after: ' spells this out in full.' },
+      { q: 'Is Cloud IX a mandated reporter?', a: 'Cloud IX is a technology platform, not a school employee, and does not file reports. Students choose whether to contact a reporting office, and choose to make the step on their own terms.' },
     ],
   },
   {
@@ -110,7 +113,7 @@ const filters = [{ id: 'all', label: 'All' }, ...groups.map((g) => ({ id: g.id, 
         <h2 id={`faq-${g.id}-h`} class="faq-group__title">{g.title}</h2>
         {g.items.map((item, ii) => (
           <FaqItem question={item.q} open={gi === 0 && ii === 0}>
-            <p>{item.a}{item.link && <> <a class="faq-link" href={item.link.href}>{item.link.label}</a></>}</p>
+            <p>{item.a}{item.link && <> <a class:list={[{ 'faq-link': !item.after }]} href={item.link.href}>{item.link.label}</a></>}{item.after}</p>
           </FaqItem>
         ))}
       </section>
