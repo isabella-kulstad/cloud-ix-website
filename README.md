@@ -21,4 +21,13 @@ npm run build    # static output in dist/
 - `src/styles/global.css` – design tokens (CSS variables), shared classes and the animation utilities.
 - `src/pages/` – one file per route.
 
-Animations respect `prefers-reduced-motion`. Forms are client-side only for now; look for `TODO` comments where submission needs a backend.
+Animations respect `prefers-reduced-motion`.
+
+## Deploy (Netlify)
+
+`netlify.toml` holds the build settings; every push to `main` deploys.
+
+The Contact (`contact`) and HECVAT (`hecvat-request`) forms submit to
+[Netlify Forms](https://docs.netlify.com/forms/setup/). Submissions appear in
+the Netlify dashboard under *Forms*; set up email notifications there. Locally
+(`npm run dev`) there is no form backend, so submitting shows the error message.

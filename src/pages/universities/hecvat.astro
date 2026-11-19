@@ -83,7 +83,10 @@ const checkPath = '<path d="m5 12 5 5L20 7"></path>';
 
     <!-- Right: form card -->
     <div class="card form-card" data-hecvat>
-      <form class="form" novalidate data-form aria-labelledby="form-h">
+      <form class="form" name="hecvat-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate data-form aria-labelledby="form-h">
+        <input type="hidden" name="form-name" value="hecvat-request" />
+        <p class="sr-only" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+        <input type="hidden" name="documents" value="" />
         <div class="form__head">
           <h2 id="form-h" class="form__title">Request documents</h2>
           <p class="form__hint">Takes about a minute. Fields marked * are required.</p>
@@ -215,14 +218,38 @@ const checkPath = '<path d="m5 12 5 5L20 7"></path>';
     form.addEventListener('input', () => { if (tried) paint(); });
     form.addEventListener('change', () => { if (tried) paint(); });
 
-    form.addEventListener('submit', (e) => {
+    const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const submitLabel = submitBtn.textContent;
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       tried = true;
       const r = paint();
       if (r.missing.length) return;
 
-      // TODO: send the request to the backend (e.g. POST new FormData(form) to the
-      // security-docs endpoint / CRM) once one exists. For now we only show the success state.
+      // Netlify Forms: POST the url-encoded fields to any path on the site.
+      // The document checkboxes share one name, so send them as a single readable field.
+      const data = new FormData(form);
+      data.delete('docs');
+      data.set('documents', r.docs.join(', '));
+      data.set('walkthrough', field('walkthrough').checked ? 'Yes' : 'No');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      try {
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      } catch {
+        errorEl.hidden = false;
+        errorEl.textContent = 'Sorry, your request didn’t send. Please try again, or email support@cloud-ix.com.';
+        return;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
+      }
 
       q<HTMLElement>('[data-first-name]').textContent = r.name.split(/\s+/)[0] || 'there';
       q<HTMLElement>('[data-inst-name]').textContent = r.inst || 'your institution';

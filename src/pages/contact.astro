@@ -92,7 +92,10 @@ const direct = [
 
     <!-- Form -->
     <div class="card form-card" id="contact-form">
-      <form class="form" novalidate data-contact-form>
+      <form class="form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate data-contact-form>
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="sr-only" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+        <input type="hidden" name="topic" value={initial.title} data-topic-input />
         <div class="form__head">
           <h2 id="form-h" class="form__title" data-form-title>{initial.title}</h2>
           <p class="form__hint" data-form-hint>{initial.hint}</p>
@@ -208,6 +211,7 @@ const direct = [
       $('[data-org-label]').textContent = c.orgLabel;
       $('[data-org-input]').placeholder = c.orgPh;
       $('[data-msg-input]').placeholder = c.msg;
+      $('[data-topic-input]').value = c.title;
       tried = false;
       paint();
       showForm(true);
@@ -220,12 +224,34 @@ const direct = [
 
     form.addEventListener('input', () => { if (tried) paint(); });
 
-    form.addEventListener('submit', (e) => {
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const submitLabel = submitBtn.textContent;
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       tried = true;
       const missing = paint();
       if (missing.length) return;
-      // TODO: send the message to the backend (e.g. POST new FormData(form) to the contact endpoint) once one exists.
+
+      // Netlify Forms: POST the url-encoded fields to any path on the site.
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      try {
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString(),
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+      } catch (err) {
+        errorEl.hidden = false;
+        errorEl.textContent = 'Sorry, your message didn’t send. Please try again, or email us at hello@cloud-ix.com.';
+        return;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitLabel;
+      }
+
       const name = fields.name.value.trim();
       done.querySelector('[data-done-name]').textContent = name.split(/\s+/)[0] || 'there';
       done.querySelector('[data-done-email]').textContent = fields.email.value.trim();
@@ -236,6 +262,7 @@ const direct = [
 
     done.querySelector('[data-form-reset]').addEventListener('click', () => {
       form.reset();
+      $('[data-topic-input]').value = $('[data-form-title]').textContent;
       tried = false;
       paint();
       showForm(true);
