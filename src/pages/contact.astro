@@ -92,8 +92,7 @@ const direct = [
 
     <!-- Form -->
     <div class="card form-card" id="contact-form">
-      <form class="form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate data-contact-form>
-        <input type="hidden" name="form-name" value="contact" />
+      <form class="form" name="contact" method="POST" action="/api/forms/contact" novalidate data-contact-form>
         <p class="sr-only" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
         <input type="hidden" name="topic" value={initial.title} data-topic-input />
         <div class="form__head">
@@ -233,13 +232,13 @@ const direct = [
       const missing = paint();
       if (missing.length) return;
 
-      // Netlify Forms: POST the url-encoded fields to any path on the site.
+      // POST to our form endpoint (server/index.mjs), which saves and emails it.
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
       try {
-        const res = await fetch('/', {
+        const res = await fetch(form.action, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'fetch' },
           body: new URLSearchParams(new FormData(form)).toString(),
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);

@@ -1,0 +1,16 @@
+---
+// Shown after a form is submitted without JavaScript (the server redirects here).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkyHero from '../components/SkyHero.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Button from '../components/Button.astro';
+import { routes } from '../data/site';
+---
+<BaseLayout title="Thank you">
+  <SkyHero>
+    <PageIntro pill="Message received" lead="Thanks for reaching out. Our team will reply to the email address you gave us.">
+      <Fragment slot="title">Thank <span class="glowtext hl">you.</span></Fragment>
+      <Fragment slot="actions"><Button href={routes.home} size="lg">Back to home</Button></Fragment>
+    </PageIntro>
+  </SkyHero>
+</BaseLayout>

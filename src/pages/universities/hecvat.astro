@@ -83,8 +83,7 @@ const checkPath = '<path d="m5 12 5 5L20 7"></path>';
 
     <!-- Right: form card -->
     <div class="card form-card" data-hecvat>
-      <form class="form" name="hecvat-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate data-form aria-labelledby="form-h">
-        <input type="hidden" name="form-name" value="hecvat-request" />
+      <form class="form" name="hecvat-request" method="POST" action="/api/forms/hecvat-request" novalidate data-form aria-labelledby="form-h">
         <p class="sr-only" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
         <input type="hidden" name="documents" value="" />
         <div class="form__head">
@@ -227,7 +226,7 @@ const checkPath = '<path d="m5 12 5 5L20 7"></path>';
       const r = paint();
       if (r.missing.length) return;
 
-      // Netlify Forms: POST the url-encoded fields to any path on the site.
+      // POST to our form endpoint (server/index.mjs), which saves and emails it.
       // The document checkboxes share one name, so send them as a single readable field.
       const data = new FormData(form);
       data.delete('docs');
@@ -236,9 +235,9 @@ const checkPath = '<path d="m5 12 5 5L20 7"></path>';
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
       try {
-        const res = await fetch('/', {
+        const res = await fetch(form.action, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'fetch' },
           body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);

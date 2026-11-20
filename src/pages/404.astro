@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkyHero from '../components/SkyHero.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Button from '../components/Button.astro';
+import { routes } from '../data/site';
+---
+<BaseLayout title="Page not found">
+  <SkyHero>
+    <PageIntro pill="404" lead="We couldn’t find that page. It may have moved.">
+      <Fragment slot="title">Lost in the <span class="glowtext hl">clouds.</span></Fragment>
+      <Fragment slot="actions"><Button href={routes.home} size="lg">Back to home</Button></Fragment>
+    </PageIntro>
+  </SkyHero>
+</BaseLayout>

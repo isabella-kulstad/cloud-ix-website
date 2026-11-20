@@ -1,0 +1,33 @@
+# Cloud Build: build the container, push it, deploy to Cloud Run.
+# Run manually:  gcloud builds submit --config cloudbuild.yaml
+# Or connect a Cloud Build trigger on pushes to main (see README).
+substitutions:
+  _REGION: us-central1
+  _SERVICE: cloud-ix-website
+  _REPO: web
+  _FORM_TO: support@cloud-ix.com
+  _SMTP_HOST: smtp.gmail.com
+  _SMTP_PORT: '587'
+  _SMTP_USER: support@cloud-ix.com
+  _FORM_FROM: support@cloud-ix.com
+
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: ['build', '-t', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID', '.']
+  - name: gcr.io/cloud-builders/docker
+    args: ['push', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID']
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE}
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID
+      - --region=${_REGION}
+      - --allow-unauthenticated
+      - --service-account=${_SERVICE}@$PROJECT_ID.iam.gserviceaccount.com
+      - --set-env-vars=FORM_TO=${_FORM_TO},FORM_FROM=${_FORM_FROM},SMTP_HOST=${_SMTP_HOST},SMTP_PORT=${_SMTP_PORT},SMTP_USER=${_SMTP_USER}
+      - --set-secrets=SMTP_PASS=smtp-password:latest
+
+images:
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$BUILD_ID
